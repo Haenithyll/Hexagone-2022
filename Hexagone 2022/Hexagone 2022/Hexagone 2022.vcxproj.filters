@@ -13,10 +13,78 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\SFML">
+      <UniqueIdentifier>{4bf69e1a-665d-4964-97ca-f46de369cf84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\SFML">
+      <UniqueIdentifier>{988484bd-d995-434d-b2e7-c366cc6e26c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Scenes">
+      <UniqueIdentifier>{e5040fff-6f0a-453c-be22-2fa8e78f1fa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Gomoku.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Button.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="View.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.hpp">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.hpp">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

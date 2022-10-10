@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SFML-cpp.2.5.1\build\native\SFML-cpp.props" Condition="Exists('..\packages\SFML-cpp.2.5.1\build\native\SFML-cpp.props')" />
+  <Import Project="..\packages\SFML-cpp.redist.2.5.1.1\build\native\SFML-cpp.redist.props" Condition="Exists('..\packages\SFML-cpp.redist.2.5.1.1\build\native\SFML-cpp.redist.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -127,9 +129,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="Events.cpp" />
+    <ClCompile Include="Gomoku.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="View.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Button.hpp" />
+    <ClInclude Include="Drawable.hpp" />
+    <ClInclude Include="Events.hpp" />
+    <ClInclude Include="Grid.hpp" />
+    <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="Screen.hpp" />
+    <ClInclude Include="Simulation.hpp" />
+    <ClInclude Include="Text.hpp" />
+    <ClInclude Include="View.hpp" />
+    <ClInclude Include="Window.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SFML-cpp.redist.2.5.1.1\build\native\SFML-cpp.redist.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFML-cpp.redist.2.5.1.1\build\native\SFML-cpp.redist.props'))" />
+    <Error Condition="!Exists('..\packages\SFML-cpp.2.5.1\build\native\SFML-cpp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFML-cpp.2.5.1\build\native\SFML-cpp.props'))" />
+  </Target>
 </Project>
