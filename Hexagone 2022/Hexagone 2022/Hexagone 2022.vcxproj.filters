@@ -51,6 +51,9 @@
     <ClCompile Include="Window.cpp">
       <Filter>Fichiers sources\SFML</Filter>
     </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.hpp">
@@ -80,8 +83,11 @@
     <ClInclude Include="Menu.hpp">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Simulation.hpp">
+    <ClInclude Include="Main.hpp">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

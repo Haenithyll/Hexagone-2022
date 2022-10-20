@@ -135,6 +135,7 @@
     <ClCompile Include="Gomoku.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Grid.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="Screen.hpp" />
+    <ClInclude Include="Main.hpp" />
     <ClInclude Include="Simulation.hpp" />
     <ClInclude Include="Text.hpp" />
     <ClInclude Include="View.hpp" />

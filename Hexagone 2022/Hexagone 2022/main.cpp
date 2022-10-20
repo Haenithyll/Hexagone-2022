@@ -2,7 +2,7 @@
 
 #include "Window.hpp"
 #include "Menu.hpp"
-#include "Simulation.hpp"
+#include "Main.hpp"
 
 int main()
 {
@@ -14,7 +14,7 @@ int main()
 
 	std::vector<Screen*> screens = {
 		new Menu(),
-		new Simulation()
+		new Main()
 	};
 
 	while (index >= 0)

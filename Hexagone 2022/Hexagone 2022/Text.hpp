@@ -34,15 +34,17 @@ namespace sw
 		private:
 			sf::Text mText;
 			sf::Font mFont;
-	public:
-			const sf::Vector2f& GetTruePosition() const;
-			void SetTruePosition(const sf::Vector2f& position);
-	private:
-			const sf::Vector2f& GetTrueOrigin() const;
-			void SetTrueOrigin(const sf::Vector2f& origin);
 
-			sf::Vector2f GetTrueSize() const;
-			void SetTrueSize(const sf::Vector2f& size);
+		public:
+				const sf::Vector2f& GetTruePosition() const;
+				void SetTruePosition(const sf::Vector2f& position);
+
+		private:
+				const sf::Vector2f& GetTrueOrigin() const;
+				void SetTrueOrigin(const sf::Vector2f& origin);
+
+				sf::Vector2f GetTrueSize() const;
+				void SetTrueSize(const sf::Vector2f& size);
 
 		protected:
 			sf::FloatRect GetLocalBounds() const;
