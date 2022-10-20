@@ -13,7 +13,10 @@ Tilemap* Tilemap::getInstance() {
 /*	Tilemap generates a new tile map according to 'radius' whose default value is 5 (ignoring the center tile).
 	The center tile is instantiated, which causes the others to generate. */
 void Tilemap::InitTilemap(int radius) {
-	_radius_ = radius;
+	if (_instance_ == nullptr)
+		_instance_ = new Tilemap();
+
+	_instance_->_radius_ = radius;
 	new Tile(std::array<int, 3>{ 0, 0, 0 });
 }
 

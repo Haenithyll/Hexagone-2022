@@ -31,7 +31,7 @@ std::array<int, 3> MultiplyArray(std::array<int, 3> array, int coefficient) {
 
 bool InRadius(std::array<int, 3> array) {
 	int radius{ Tilemap::getInstance()->Radius() };
-	return abs(array[0]) < radius && abs(array[1]) < radius && abs(array[2]) < radius;
+	return abs(array[0]) <= radius && abs(array[1]) <= radius && abs(array[2]) <= radius;
 }
 
 #pragma endregion

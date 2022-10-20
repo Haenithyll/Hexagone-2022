@@ -8,7 +8,7 @@ class Tilemap {
 public:
 	static Tilemap* getInstance();
 
-	void InitTilemap(int radius = 2);
+	static void InitTilemap(int radius = 2);
 
 	int Radius();
 	void AddTile(Tile*);

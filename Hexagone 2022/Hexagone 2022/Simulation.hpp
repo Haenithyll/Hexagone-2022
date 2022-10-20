@@ -8,7 +8,7 @@
 class Simulation : public sf::Drawable
 {
 	public:
-
+		sf::FloatRect GetGlobalBounds();
 
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
