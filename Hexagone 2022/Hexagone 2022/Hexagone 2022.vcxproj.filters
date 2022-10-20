@@ -22,6 +22,12 @@
     <Filter Include="Fichiers d%27en-tête\Scenes">
       <UniqueIdentifier>{e5040fff-6f0a-453c-be22-2fa8e78f1fa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Game">
+      <UniqueIdentifier>{99548b76-6a06-4f17-a0bf-04adb1c4d5f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Game">
+      <UniqueIdentifier>{eec3d3c0-b9bb-4bb4-85ff-f13d351ef0ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +56,15 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Activist.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Master.cpp">
+      <Filter>Fichiers sources\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +97,15 @@
     </ClInclude>
     <ClInclude Include="Simulation.hpp">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Activist.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Master.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
