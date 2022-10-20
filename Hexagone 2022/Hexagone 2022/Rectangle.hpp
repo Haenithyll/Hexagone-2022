@@ -37,10 +37,11 @@ namespace sw
 			const sf::Vector2f& GetTrueOrigin() const;
 			void SetTrueOrigin(const sf::Vector2f& origin);
 
-			sf::Vector2f GetTrueSize() const;
 			void SetTrueSize(const sf::Vector2f& size);
 
 		protected:
+			sf::Vector2f GetTrueSize() const;
+
 			sf::FloatRect GetLocalBounds() const;
 			sf::FloatRect GetGlobalBounds() const;
 

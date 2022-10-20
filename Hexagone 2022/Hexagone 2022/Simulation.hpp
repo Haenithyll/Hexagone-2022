@@ -5,7 +5,11 @@
 
 #include "Drawable.hpp"
 
-class Simulation
+class Simulation : public sf::Drawable
 {
+	public:
 
+
+	private:
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

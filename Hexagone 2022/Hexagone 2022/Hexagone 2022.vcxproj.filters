@@ -113,6 +113,9 @@
     <ClInclude Include="BGCharacter.hpp">
       <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
     </ClInclude>
+    <ClInclude Include="Rectangle.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

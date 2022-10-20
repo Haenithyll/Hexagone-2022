@@ -111,7 +111,7 @@ namespace sw
 		UpdatePosition();
 	}
 
-	sf::Vector2f sw::Drawable::GetTruePosition(Origin origin, bool global) const
+	sf::Vector2f sw::Drawable::GetOriginPosition(Origin origin, bool global) const
 	{
 		sf::FloatRect rect = global ? GetGlobalBounds() : GetLocalBounds();
 
@@ -151,13 +151,13 @@ namespace sw
 
 	void Drawable::UpdatePosition()
 	{
-		SetTrueOrigin(GetTruePosition(mOrigin, false));
+		SetTrueOrigin(GetOriginPosition(mOrigin, false));
 
 		if (mReference == Reference::Parent && HasParent())
 		{
 			if (mUnit == Unit::Pixel)
 			{
-				SetTruePosition(mPosition + GetParent()->GetTruePosition(TopLeft));
+				SetTruePosition(mPosition + GetParent()->GetOriginPosition(TopLeft));
 			}
 			else
 			{

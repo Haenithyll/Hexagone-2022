@@ -68,8 +68,6 @@ namespace sw
 			Reference mReference = Parent;
 			Origin mOrigin = Center;
 
-			sf::Vector2f GetTruePosition(Origin origin, bool global = true) const;
-
 			virtual const sf::Vector2f& GetTruePosition() const = 0;
 			virtual void SetTruePosition(const sf::Vector2f& position) = 0;
 
@@ -80,6 +78,8 @@ namespace sw
 			virtual void SetTrueSize(const sf::Vector2f& size) = 0;
 
 		protected:
+			sf::Vector2f GetOriginPosition(Origin origin, bool global = true) const;
+
 			void UpdatePosition();
 			void UpdateSize();
 
