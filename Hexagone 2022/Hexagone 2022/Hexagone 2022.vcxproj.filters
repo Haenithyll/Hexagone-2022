@@ -22,6 +22,12 @@
     <Filter Include="Fichiers d%27en-tête\Scenes">
       <UniqueIdentifier>{e5040fff-6f0a-453c-be22-2fa8e78f1fa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Tilemap Generation">
+      <UniqueIdentifier>{00f6affa-fb91-4149-b5c2-ee085929dddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Tilemap Generation">
+      <UniqueIdentifier>{bc4242be-9d9d-4ae8-b552-659788edad47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="Simulation.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Fichiers sources\Tilemap Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Fichiers sources\Tilemap Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="BGCharacter.cpp">
+      <Filter>Fichiers sources\Tilemap Generation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +103,15 @@
     </ClInclude>
     <ClInclude Include="Simulation.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Tilemap.hpp">
+      <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.hpp">
+      <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="BGCharacter.hpp">
+      <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

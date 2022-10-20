@@ -17,8 +17,13 @@ int main()
 		new Main()
 	};
 
+	//std::vector<Screen*> screens = {
+	//	new Menu(),
+	//	new Simulation()
+	//};
+
 	while (index >= 0)
-		index = screens[index]->Run(window);
+	index = screens[index]->Run(window);
 
 	return 0;
 }

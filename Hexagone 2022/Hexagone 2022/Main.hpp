@@ -3,6 +3,7 @@
 #include "Screen.hpp"
 #include "Text.hpp"
 #include "Button.hpp"
+#include "Tilemap.hpp"
 
 class Main : public Screen
 {
@@ -14,6 +15,8 @@ class Main : public Screen
 
 		int Run(sw::Window& window)
 		{
+			Tilemap::getInstance()->InitTilemap();
+
 			sw::Rectangle a(0, 0, 50, 50, sw::Center, sw::World, sw::Pixel);
 			sw::View gridView = window.GetDefaultView();
 
