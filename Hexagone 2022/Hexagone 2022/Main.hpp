@@ -16,7 +16,7 @@ class Main : public Screen
 
 		int Run(sw::Window& window)
 		{
-			Tilemap::InitTilemap();
+			Tilemap::Init();
 
 			Simulation simulation;
 

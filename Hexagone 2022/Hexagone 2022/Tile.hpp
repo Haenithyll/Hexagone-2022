@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <array>
+
+#include "Drawable.hpp"
 #include "BGCharacter.hpp"
 
 enum tmpParty {
@@ -15,10 +17,11 @@ enum tmpParty {
 class Tile {
 public:
 
-	Tile(std::array<int, 3> position);
+	Tile(std::array<int, 3> coordinates);
 	void InitSurroundingTiles();
 
-	std::array<int, 3> Position();
+	sf::Vector2f Position();
+	std::array<int, 3> Coordinates();
 	bool Obstacle();
 	tmpParty Party();
 	BGCharacter* Character();
@@ -30,7 +33,8 @@ public:
 	void FreeTile();
 
 private:
-	std::array<int, 3> _position_;
+	sf::Vector2f _position_;
+	std::array<int, 3> _coordinates_;
 	std::vector<Tile*> _surroundingTiles_;
 
 	bool _obstacle_{ false };

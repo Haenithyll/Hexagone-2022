@@ -8,13 +8,11 @@ sf::FloatRect Simulation::GetGlobalBounds()
 {
 	const float diameter = 150.f;
 
-	return sf::FloatRect(0.f, 0.f, diameter * (Tilemap::getInstance()->Radius() + 0.5f) * 2.f, diameter * (Tilemap::getInstance()->Radius() + 0.5f) * 2.f);
+	return sf::FloatRect(0.f, 0.f, diameter * (Tilemap::Radius() + 0.5f) * 2.f, diameter * (Tilemap::Radius() + 0.5f) * 2.f);
 }
 
 void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	std::map<std::array<int, 3>, Tile*> a = Tilemap::getInstance()->Tiles();
-
 	const float diameter = 150.f;
 	const float radius = diameter / 2.f;
 
@@ -30,11 +28,9 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Vertex line[7];
 	sf::Vector2f center;
 
-	for (const auto& tile : a)
+	for (const auto& tile : Tilemap::Tiles())
 	{
-		auto position = tile.second->Position();
-
-		center = sf::Vector2f(position[0] - cos * position[1] - cos * position[2], sin * position[1] - sin * position[2]);
+		center = tile.second->Position();
 
 		center *= radius;
 

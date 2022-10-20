@@ -6,15 +6,13 @@
 class Tilemap {
 
 public:
-	static Tilemap* getInstance();
+	static void Init(int radius = 2);
 
-	static void InitTilemap(int radius = 2);
-
-	int Radius();
-	void AddTile(Tile*);
-	Tile* GetTile(std::array<int, 3>);
-	std::map<std::array<int, 3>, Tile*> Tiles();
-	std::vector<std::array<int, 3>> UnitVectors();
+	static int Radius();
+	static void AddTile(Tile*);
+	static Tile* GetTile(std::array<int, 3>);
+	static std::map<std::array<int, 3>, Tile*> Tiles();
+	static std::vector<std::array<int, 3>> UnitVectors();
 
 private:
 	static Tilemap* _instance_;

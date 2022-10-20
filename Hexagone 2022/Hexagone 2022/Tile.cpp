@@ -1,12 +1,18 @@
 #include "Tile.hpp"
 #include "Tilemap.hpp"
 
+#define PI 3.14159265359
+
 /*	Tile instantiates a new tile with a unique 'position' while adding its own reference to the tile map.
 	All of the surrounding tiles are then initialized or retrieved if already existing.*/
 
-Tile::Tile(std::array<int, 3> position) {
-	_position_ = position;
-	Tilemap::getInstance()->AddTile(this);
+Tile::Tile(std::array<int, 3> coordinates) {
+	_coordinates_ = coordinates;
+	_position_ = sf::Vector2f{
+		_coordinates_[0] + _coordinates_[1] * (float)cos(2 * PI / 3) + _coordinates_[2] * (float)cos(-2 * PI / 3),
+		_coordinates_[1] * (float)sin(2 * PI / 3) + _coordinates_[2] * (float)sin(-2 * PI / 3)
+	};
+	Tilemap::AddTile(this);
 	InitSurroundingTiles();
 }
 
@@ -30,7 +36,7 @@ std::array<int, 3> MultiplyArray(std::array<int, 3> array, int coefficient) {
 }
 
 bool InRadius(std::array<int, 3> array) {
-	int radius{ Tilemap::getInstance()->Radius() };
+	int radius{ Tilemap::Radius() };
 	return abs(array[0]) <= radius && abs(array[1]) <= radius && abs(array[2]) <= radius;
 }
 
@@ -40,7 +46,6 @@ bool InRadius(std::array<int, 3> array) {
 // InitSurroundingTiles sets the surrounding tiles by retrieving existing tiles or creating new ones with respect to the tilemap's radius.
 void Tile::InitSurroundingTiles() {
 	std::vector<std::array<int, 3>> surroundingPositions;
-	Tilemap* instance{ Tilemap::getInstance() };	// retrieval of the tilemap's instance to avoid further unnecessary calls.
 
 	/*
 	Only 3 unit vectors are necessary to define the position of the 6 surrounding tiles.
@@ -48,24 +53,31 @@ void Tile::InitSurroundingTiles() {
 	*/
 
 	for (int i{ -1 }; i <= 1; i += 2)
-		for (std::array<int, 3> unitVector : instance->UnitVectors()) {
-			std::array<int, 3> potentialPosition{ AddArrays(_position_, MultiplyArray(unitVector, i)) };
+		for (std::array<int, 3> unitVector : Tilemap::UnitVectors()) {
+			std::array<int, 3> potentialPosition{ AddArrays(_coordinates_, MultiplyArray(unitVector, i)) };
 			if (InRadius(potentialPosition))
 				surroundingPositions.push_back(potentialPosition);
 		}
 
 	for (std::array<int, 3> coord : surroundingPositions) {
-		if (instance->Tiles().contains(coord)) // Tests whether or not the coord corresponds to an existing tile. True if not found.
-			_surroundingTiles_.push_back(instance->GetTile(coord));
+		if (Tilemap::Tiles().contains(coord)) // Tests whether or not the coord corresponds to an existing tile. True if not found.
+			_surroundingTiles_.push_back(Tilemap::GetTile(coord));
 		else
 			_surroundingTiles_.push_back(new Tile(coord));
 	}
 }
 
 // Position returns the tile's position.
-std::array<int, 3> Tile::Position() {
-	std::array<int, 3>& returnedPosition{ _position_ };
+sf::Vector2f Tile::Position() {
+	sf::Vector2f& returnedPosition{ _position_ };
 	return returnedPosition;
+}
+
+
+// Position returns the tile's coordinates.
+std::array<int, 3> Tile::Coordinates() {
+	std::array<int, 3>& returnedCoordinates{ _coordinates_ };
+	return returnedCoordinates;
 }
 
 // Obstacle returns whether or not the tile is an obstacle.
