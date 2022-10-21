@@ -1,6 +1,5 @@
 #include "Activist.hpp"
 #include "Master.hpp"
-
 void Activist::Move()
 {
 	std::vector<sf::Vector3i> pathToTravel;
@@ -14,7 +13,7 @@ void Activist::Move()
 		for (int i = 0; i < nTravelLength; i++)
 		{
 			sf::Vector3i move = PseudoRandom.GetDirection();
-			while (!Tilemap.ValidPosition(_position + move) || move == _lastDirection)
+			while (Tilemap.GetTile(_position + move) == nullptr || move == _lastDirection)
 			{
 				move = PseudoRandom.GetDirection();
 			}
@@ -57,10 +56,9 @@ void Activist::Move()
 			//GraphicUpdate
 			if (nextTile.Safezone == _party)
 			{
-				Master master;
-				master.ReceiveMessages(_messages*);
+				Master* master;
+				ReceiveMessages(master->GetMessages());
 				_energyPoints = _maxEnergyPoints;
-				master.DeliverMessages(this);
 			}
 		}
 	}
@@ -122,6 +120,12 @@ void Activist::ShareMessages(Character* character)
 
 void Activist::MessagesUnion(std::vector<std::string*>* newMessages)
 {
-	Character::ReceiveMessages(newMessages);
+	for (int i = 0; i < newMessages->size(); i++)
+	{
+		if (std::find(_messages.begin(), _messages.end(), (*newMessages)[i]) == _messages.end())//message not in vector
+		{
+			_messages.push_back((*newMessages)[i]);
+		}
+	}
 	*newMessages = _messages;
 }

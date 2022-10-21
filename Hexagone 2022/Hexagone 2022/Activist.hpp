@@ -1,15 +1,17 @@
 #pragma once
 #include "Character.hpp"
 
-class Activist : Character
+class Activist : public Character
 {
 public:
-	Activist(int maxEnergy)
+	Activist(Party party, Party allyParty, sf::Vector3i position, int maxEnergy, int nMinMove, int nMaxMove):Character(party, allyParty, position)
 	{
 		_maxEnergyPoints = maxEnergy;
 		_energyPoints = _maxEnergyPoints;
 		_isDead = false;
 		_lastDirection = sf::Vector3i();
+		_nMinMove = nMinMove;
+		_nMaxMove = nMaxMove;
 	}
 	virtual void Move() override;
 private:

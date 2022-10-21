@@ -2,10 +2,9 @@
 #include "Character.hpp"
 #include "Activist.hpp"
 
-class Master : Character
+class Master : public Character
 {
 public:
-	void DeliverMessages(Character* activist);
 	virtual void Move() override;
 };
 

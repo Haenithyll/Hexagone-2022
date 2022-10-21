@@ -12,14 +12,8 @@ public:
 		_allyParty = allyParty;
 		_position = position;
 	}
-	Party GetParty()
-	{
-		return _party;
-	}
-	std::vector<std::string*>* GetMessages()
-	{
-		return &_messages;
-	}
+	Party GetParty(){	return _party;	}
+	std::vector<std::string*>* GetMessages(){	return &_messages;	}
 	void ReceiveMessages(std::vector<std::string*>*);
 	virtual void Move() = 0;
 protected:
