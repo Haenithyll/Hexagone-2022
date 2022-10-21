@@ -15,8 +15,6 @@ namespace sw
 
 		mWindow = new sf::RenderWindow();
 
-		ImGui::SFML::Init(*mWindow);
-
 		if (mMain == nullptr)
 			mMain = this;
 	}
@@ -28,8 +26,6 @@ namespace sw
 		mPosition = sf::Vector2i(posX, posY);
 
 		mWindow = new sf::RenderWindow();
-
-		ImGui::SFML::Init(*mWindow);
 
 		if (mMain == nullptr)
 			mMain = this;
@@ -45,6 +41,8 @@ namespace sw
 
 		mWindow->create(size, mTitle, fullscreen ? sf::Style::Fullscreen : (sf::Style::Titlebar | sf::Style::Close), cs);
 		mWindow->setFramerateLimit(framerate);
+
+		ImGui::SFML::Init(*mWindow);
 	}
 
 	void Window::Destroy()

@@ -117,7 +117,7 @@ class Main : public Screen
 				window.ResetView();
 
 				if (nFrame % 100 == 0)
-					simulation.Update(), Log::Print("fdp");
+					simulation.Update();
 
 				ImGui::Begin("Console");
 
