@@ -5,6 +5,7 @@
 #include "Button.hpp"
 #include "Tilemap.hpp"
 #include "Simulation.hpp"
+#include "Log.hpp"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui-SFML.h"
@@ -20,6 +21,7 @@ class Main : public Screen
 		int Run(sw::Window& window)
 		{
 			Tilemap::Init(3);
+			Log::Init();
 
 			Simulation simulation;
 
@@ -114,17 +116,17 @@ class Main : public Screen
 
 				window.ResetView();
 
-				window.Draw(gameFrame);
-				window.Draw(infoFrame);
-
-				frameText.SetText("Nombre de frame : " + std::to_string(nFrame));
-				roundText.SetText("Nombre de tour : " + std::to_string(nFrame / 100 + 1));
-
-				window.Draw(frameText);
-				window.Draw(roundText);
-
 				if (nFrame % 100 == 0)
-					simulation.Update();
+					simulation.Update(), Log::Print("fdp");
+
+				ImGui::Begin("Console");
+
+				for (const std::string& message : Log::GetMessages())
+					ImGui::Text(message.c_str());
+
+				ImGui::SetScrollHereY(1.f);
+
+				ImGui::End();
 
 				ImGui::Begin("Infos");
 

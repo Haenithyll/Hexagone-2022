@@ -4,6 +4,16 @@
 
 # define M_PI 3.14159265358979323846
 
+void Simulation::Reset()
+{
+
+}
+
+void Simulation::Update()
+{
+
+}
+
 sf::FloatRect Simulation::GetGlobalBounds()
 {
 	const float diameter = 150.f;

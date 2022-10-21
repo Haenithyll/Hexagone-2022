@@ -34,6 +34,18 @@
     <Filter Include="Fichiers d%27en-tête\ImGui">
       <UniqueIdentifier>{cf771fe5-3543-4829-bbdf-026a6a5d3561}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Game">
+      <UniqueIdentifier>{085bc9e0-bdc4-4868-81eb-d4721a834b88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Game">
+      <UniqueIdentifier>{94e28b45-2bc4-467c-b1bd-1719495aaec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Editor">
+      <UniqueIdentifier>{c4e00d34-250c-4ed8-871a-9b82fa37a902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Editor">
+      <UniqueIdentifier>{a591ab79-21ba-4c3f-adae-f4b0ec38a19c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,9 +75,6 @@
     <ClCompile Include="Window.cpp">
       <Filter>Fichiers sources\SFML</Filter>
     </ClCompile>
-    <ClCompile Include="Simulation.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Tilemap.cpp">
       <Filter>Fichiers sources\Tilemap Generation</Filter>
     </ClCompile>
@@ -89,6 +98,21 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui-SFML.cpp">
       <Filter>Fichiers sources\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Activist.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Master.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Fichiers sources\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="Main.hpp">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Tilemap.hpp">
       <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
@@ -160,6 +181,21 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Fichiers d%27en-tête\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Activist.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Master.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.hpp">
+      <Filter>Fichiers d%27en-tête\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

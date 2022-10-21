@@ -134,8 +134,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Activist.cpp" />
     <ClCompile Include="BGCharacter.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Events.cpp" />
     <ClCompile Include="Gomoku.cpp" />
@@ -144,7 +146,9 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Master.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -154,8 +158,10 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Activist.hpp" />
     <ClInclude Include="BGCharacter.hpp" />
     <ClInclude Include="Button.hpp" />
+    <ClInclude Include="Character.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="Grid.hpp" />
@@ -167,6 +173,8 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Log.hpp" />
+    <ClInclude Include="Master.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Screen.hpp" />
