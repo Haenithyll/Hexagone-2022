@@ -1,5 +1,10 @@
 #include "Window.hpp"
+
 #include <iostream>
+
+#include "imgui/imgui.h"
+#include "imgui/imgui-SFML.h"
+
 namespace sw
 {
 	Window::Window(const std::string& title, const sf::Vector2u& size, const sf::Vector2i& position)
@@ -9,6 +14,8 @@ namespace sw
 		mPosition = position;
 
 		mWindow = new sf::RenderWindow();
+
+		ImGui::SFML::Init(*mWindow);
 
 		if (mMain == nullptr)
 			mMain = this;
@@ -22,6 +29,8 @@ namespace sw
 
 		mWindow = new sf::RenderWindow();
 
+		ImGui::SFML::Init(*mWindow);
+
 		if (mMain == nullptr)
 			mMain = this;
 	}
@@ -34,7 +43,7 @@ namespace sw
 
 		sf::VideoMode size = fullscreen ? sf::VideoMode::getFullscreenModes()[0] : sf::VideoMode(mSize.x, mSize.y);
 
-		mWindow->create(size, mTitle, fullscreen ? sf::Style::Fullscreen : (sf::Style::Titlebar | sf::Style::Close),  cs);
+		mWindow->create(size, mTitle, fullscreen ? sf::Style::Fullscreen : (sf::Style::Titlebar | sf::Style::Close), cs);
 		mWindow->setFramerateLimit(framerate);
 	}
 
@@ -45,14 +54,14 @@ namespace sw
 
 	bool Window::IsOpen()
 	{
-		mDeltaTime = mClock.restart().asSeconds();
+		mDeltaTime = mClock.restart();
 
 		return mWindow->isOpen();
 	}
 
 	float Window::GetDeltaTime() const
 	{
-		return mDeltaTime;
+		return mDeltaTime.asSeconds();
 	}
 
 	EventsData Window::HandleEvents()
@@ -63,6 +72,8 @@ namespace sw
 
 		while (mWindow->pollEvent(event))
 		{
+			ImGui::SFML::ProcessEvent(*mWindow, event);
+
 			switch (event.type)
 			{
 				case sf::Event::EventType::Closed:
@@ -113,6 +124,8 @@ namespace sw
 			}
 		}
 
+		ImGui::SFML::Update(*mWindow, mDeltaTime);
+
 		return mEvents.FinishHandling();
 	}
 
@@ -128,6 +141,8 @@ namespace sw
 
 	void Window::Display() const
 	{
+		ImGui::SFML::Render(*mWindow);
+
 		mWindow->display();
 	}
 
@@ -144,6 +159,11 @@ namespace sw
 	View Window::GetDefaultView() const
 	{
 		return sw::View(mWindow->getDefaultView());
+	}
+
+	void Window::ResetView()
+	{
+		SetView(GetDefaultView());
 	}
 
 	void Window::SetView(const sf::View& view)

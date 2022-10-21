@@ -1,7 +1,4 @@
-﻿  main.cpp
-C:\Users\Gandalf\Documents\Projets\Hexagone-2022\Hexagone 2022\Hexagone 2022\Menu.hpp(35,44): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Gandalf\Documents\Projets\Hexagone-2022\Hexagone 2022\Hexagone 2022\Menu.hpp(35,38): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Gandalf\Documents\Projets\Hexagone-2022\Hexagone 2022\Hexagone 2022\Menu.hpp(35,31): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
+﻿  Window.cpp
   Hexagone 2022.vcxproj -> C:\Users\Gandalf\Documents\Projets\Hexagone-2022\Hexagone 2022\x64\Debug\Hexagone 2022.exe
   C:\Users\Gandalf\Documents\Projets\Hexagone-2022\Hexagone 2022\packages\SFML-cpp.redist.2.5.1.1\build\native\bin\x64\Debug\openal32.dll
   1 fichier(s) copiÚ(s)

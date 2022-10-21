@@ -6,7 +6,7 @@
 
 int main()
 {
-	sw::Window window("Hexagone 2022", 1368, 855, 0u, 0u);
+	sw::Window window("Hexagone 2022", 1368, 1368, 0u, 0u);
 
 	window.Create(false, 8u);
 
@@ -18,7 +18,13 @@ int main()
 	};
 
 	while (index >= 0)
-	index = screens[index]->Run(window);
+	{
+		index = screens[index]->Run(window);
+
+		ImGui::SFML::Render();
+	}
+
+	ImGui::SFML::Shutdown();
 
 	return 0;
 }

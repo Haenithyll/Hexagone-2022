@@ -33,6 +33,7 @@ namespace sw
 
 			View GetDefaultView() const;
 
+			void ResetView();
 			void SetView(const sf::View& view);
 
 			sf::Vector2f MapToCoord(const sf::Vector2f& point) const;
@@ -48,7 +49,7 @@ namespace sw
 			sf::Vector2u mSize;
 			sf::Vector2i mPosition;
 
-			float mDeltaTime;
+			sf::Time mDeltaTime;
 			sf::Clock mClock;
 
 			static Window* mMain;

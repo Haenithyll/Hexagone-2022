@@ -6,6 +6,9 @@
 #include "Tilemap.hpp"
 #include "Simulation.hpp"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui-SFML.h"
+
 class Main : public Screen
 {
 	public:
@@ -16,9 +19,11 @@ class Main : public Screen
 
 		int Run(sw::Window& window)
 		{
-			Tilemap::Init(10);
+			Tilemap::Init(3);
 
 			Simulation simulation;
+
+			simulation.Reset();
 
 			sw::View gridView = window.GetDefaultView();
 			
@@ -70,9 +75,7 @@ class Main : public Screen
 
 			while (window.IsOpen())
 			{
-				++nFrame;
-
-				window.SetView(window.GetDefaultView());
+				window.ResetView();
 
 				sw::EventsData data = window.HandleEvents();
 
@@ -109,7 +112,7 @@ class Main : public Screen
 
 				window.Draw(simulation);
 
-				window.SetView(window.GetDefaultView());
+				window.ResetView();
 
 				window.Draw(gameFrame);
 				window.Draw(infoFrame);
@@ -120,7 +123,18 @@ class Main : public Screen
 				window.Draw(frameText);
 				window.Draw(roundText);
 
+				if (nFrame % 100 == 0)
+					simulation.Update();
+
+				ImGui::Begin("Infos");
+
+				ImGui::Button("agrougrou");
+
+				ImGui::End();
+
 				window.Display();
+
+				++nFrame;
 			}
 
 			return -1;

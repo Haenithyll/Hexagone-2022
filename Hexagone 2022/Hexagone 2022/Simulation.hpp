@@ -8,6 +8,9 @@
 class Simulation : public sf::Drawable
 {
 	public:
+		void Reset();
+		void Update();
+
 		sf::FloatRect GetGlobalBounds();
 
 	private:
