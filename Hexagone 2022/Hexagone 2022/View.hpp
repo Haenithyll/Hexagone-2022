@@ -29,8 +29,8 @@ namespace sw
 
 			void SetViewport(float left, float top, float width, float height);
 			void SetViewport(const sf::FloatRect& rect);
-			void SetScaleViewport(float left, float top, float width, float height);
-			void SetScaleViewport(const sf::FloatRect& rect);
+			sf::Vector2f SetScaleViewport(float left, float top, float width, float height, bool inverted = false);
+			sf::Vector2f SetScaleViewport(const sf::FloatRect& rect, bool inverted = false);
 
 			sf::FloatRect GetLocalBounds();
 			sf::FloatRect GetViewBounds();

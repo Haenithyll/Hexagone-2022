@@ -51,6 +51,8 @@ class Menu : public Screen
 				if (data.IsKeyPressed(sw::Key::Space))
 					return 1;
 
+				return 1;
+
 				float spaceAlpha = space.GetFillColor().a;
 
 				if (out == true && spaceAlpha < 50.f)

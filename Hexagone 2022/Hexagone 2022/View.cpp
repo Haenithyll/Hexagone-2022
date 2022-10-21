@@ -123,16 +123,55 @@ namespace sw
 		mView.setViewport(rect);
 	}
 
-	void View::SetScaleViewport(float left, float top, float width, float height)
+	sf::Vector2f View::SetScaleViewport(float left, float top, float width, float height, bool inverted)
 	{
-		if (mWindowSize.x > mWindowSize.y) mView.setViewport(sf::FloatRect(left, top, width * (float)mWindowSize.y / (float)mWindowSize.x, height));
-		else mView.setViewport(sf::FloatRect(left, top, width, height * (float)mWindowSize.x / (float)mWindowSize.y));
+		float ratio;
+
+		sf::Vector2f scale;
+
+		if (mWindowSize.x > mWindowSize.y)
+		{
+			ratio = (float)mWindowSize.y / (float)mWindowSize.x;
+
+			if (inverted)
+			{
+				height /= ratio;
+
+				scale = sf::Vector2f(0.f, ratio);
+			}
+			else
+			{
+				width *= ratio;
+
+				scale = sf::Vector2f(ratio, 1.f);
+			}
+		}
+		else
+		{
+			ratio = (float)mWindowSize.x / (float)mWindowSize.y;
+
+			if (inverted)
+			{
+				width /= ratio;
+
+				scale = sf::Vector2f(ratio, 0.f);
+			}
+			else
+			{
+				height *= ratio;
+
+				scale = sf::Vector2f(1.f, ratio);
+			}
+		}
+		
+		mView.setViewport(sf::FloatRect(left, top, width, height));
+
+		return scale;
 	}
 
-	void View::SetScaleViewport(const sf::FloatRect& rect)
+	sf::Vector2f View::SetScaleViewport(const sf::FloatRect& rect, bool inverted)
 	{
-		if (mWindowSize.x > mWindowSize.y) mView.setViewport(sf::FloatRect(rect.left, rect.top, rect.width * (float)mWindowSize.y / (float)mWindowSize.x, rect.height));
-		else mView.setViewport(sf::FloatRect(rect.left, rect.top, rect.width, rect.height * (float)mWindowSize.x / (float)mWindowSize.y));
+		return SetScaleViewport(rect.left, rect.top, rect.width, rect.height, inverted);
 	}
 
 	sf::FloatRect View::GetLocalBounds()
