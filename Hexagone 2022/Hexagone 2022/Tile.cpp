@@ -6,65 +6,18 @@
 /*	Tile instantiates a new tile with a unique 'position' while adding its own reference to the tile map.
 	All of the surrounding tiles are then initialized or retrieved if already existing.*/
 
-Tile::Tile(std::array<int, 3> coordinates) {
+Tile::Tile(sf::Vector3i coordinates) {
 	_coordinates_ = coordinates;
 	_position_ = sf::Vector2f{
-		_coordinates_[0] + _coordinates_[1] * (float)cos(2 * PI / 3) + _coordinates_[2] * (float)cos(-2 * PI / 3),
-		_coordinates_[1] * (float)sin(2 * PI / 3) + _coordinates_[2] * (float)sin(-2 * PI / 3)
-	};
-	Tilemap::AddTile(this);
-	InitSurroundingTiles();
-}
-
-
-#pragma region custom_operations
-
-std::array<int, 3> AddArrays(std::array<int, 3> array1, std::array<int, 3> array2) {
-	return std::array<int, 3> {
-		array1[0] + array2[0],
-			array1[1] + array2[1],
-			array1[2] + array2[2],
+		coordinates.x + coordinates.y * (float)cos(2 * PI / 3) + coordinates.z * (float)cos(-2 * PI / 3),
+		coordinates.y * (float)sin(2 * PI / 3) + coordinates.z * (float)sin(-2 * PI / 3)
 	};
 }
 
-std::array<int, 3> MultiplyArray(std::array<int, 3> array, int coefficient) {
-	return std::array<int, 3> {
-		coefficient* array[0],
-			coefficient* array[1],
-			coefficient* array[2],
-	};
-}
-
-bool InRadius(std::array<int, 3> array) {
-	int radius{ Tilemap::Radius() };
-	return abs(array[0]) <= radius && abs(array[1]) <= radius && abs(array[2]) <= radius;
-}
-
-#pragma endregion
 
 
-// InitSurroundingTiles sets the surrounding tiles by retrieving existing tiles or creating new ones with respect to the tilemap's radius.
-void Tile::InitSurroundingTiles() {
-	std::vector<std::array<int, 3>> surroundingPositions;
-
-	/*
-	Only 3 unit vectors are necessary to define the position of the 6 surrounding tiles.
-	Therefore, a forloop goes through both the unit vectors and their opposite.
-	*/
-
-	for (int i{ -1 }; i <= 1; i += 2)
-		for (std::array<int, 3> unitVector : Tilemap::UnitVectors()) {
-			std::array<int, 3> potentialPosition{ AddArrays(_coordinates_, MultiplyArray(unitVector, i)) };
-			if (InRadius(potentialPosition))
-				surroundingPositions.push_back(potentialPosition);
-		}
-
-	for (std::array<int, 3> coord : surroundingPositions) {
-		if (Tilemap::Tiles().contains(coord)) // Tests whether or not the coord corresponds to an existing tile. True if not found.
-			_surroundingTiles_.push_back(Tilemap::GetTile(coord));
-		else
-			_surroundingTiles_.push_back(new Tile(coord));
-	}
+void Tile::AddSurroundingTile(Tile* tile) {
+	_surroundingTiles_.push_back(tile);
 }
 
 // Position returns the tile's position.
@@ -75,8 +28,8 @@ sf::Vector2f Tile::Position() {
 
 
 // Position returns the tile's coordinates.
-std::array<int, 3> Tile::Coordinates() {
-	std::array<int, 3>& returnedCoordinates{ _coordinates_ };
+sf::Vector3i Tile::Coordinates() {
+	sf::Vector3i& returnedCoordinates{ _coordinates_ };
 	return returnedCoordinates;
 }
 

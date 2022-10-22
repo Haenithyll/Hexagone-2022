@@ -5,6 +5,7 @@
 
 #include "Drawable.hpp"
 #include "BGCharacter.hpp"
+#include "SFML/System/Vector3.hpp"
 
 enum tmpParty {
 	none,
@@ -17,16 +18,16 @@ enum tmpParty {
 class Tile {
 public:
 
-	Tile(std::array<int, 3> coordinates);
-	void InitSurroundingTiles();
+	Tile(sf::Vector3i coordinates);
 
 	sf::Vector2f Position();
-	std::array<int, 3> Coordinates();
+	sf::Vector3i Coordinates();
 	bool Obstacle();
 	tmpParty Party();
 	BGCharacter* Character();
 	std::vector<Tile*> SurroundingTiles();
 
+	void AddSurroundingTile(Tile*);
 	void SetObstacle();
 	void SetParty(tmpParty);
 	void SetCharacter(BGCharacter*);
@@ -34,7 +35,7 @@ public:
 
 private:
 	sf::Vector2f _position_;
-	std::array<int, 3> _coordinates_;
+	sf::Vector3i _coordinates_;
 	std::vector<Tile*> _surroundingTiles_;
 
 	bool _obstacle_{ false };

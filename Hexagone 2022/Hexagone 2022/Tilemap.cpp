@@ -1,4 +1,6 @@
 #include "Tilemap.hpp"
+#include "Log.hpp"
+
 
 Tilemap* Tilemap::_instance_ = nullptr;
 
@@ -9,17 +11,59 @@ void Tilemap::Init(int radius) {
 		_instance_ = new Tilemap();
 
 	_instance_->_radius_ = radius;
-	new Tile(std::array<int, 3>{ 0, 0, 0 });
+	GenerateTiles();
+	InitSurroundingTiles();
 }
+
+
+void Tilemap::GenerateTiles() {
+	int radius{ Tilemap::Radius() };
+	int y, startingY, count, index;
+	for (int x{ -radius }; x <= radius; ++x) {
+		startingY = x > 0 ? radius - x : radius;
+		count = 2 * radius - abs(x) + 1;
+		index = 0;
+		y = startingY;
+		while (index < count) {
+			AddTile(new Tile(sf::Vector3i{ x, y, -(x + y) }));
+			--y;
+			++index;
+		}
+	}
+}
+
+// InitSurroundingTiles sets the surrounding tiles of a specific 'tile' by retrieving all existing tiles with respect to the tilemap's radius.
+void Tilemap::InitSurroundingTiles() {
+
+	for (const auto& [coord, tile] : Tilemap::Tiles())
+		/*
+		Only 3 unit vectors are necessary to define the position of the 6 surrounding tiles.
+		Therefore, a forloop goes through both the unit vectors and their opposite.
+		*/
+		for (int i{ -1 }; i <= 1; i += 2)
+			for (sf::Vector3i unitVector : Tilemap::UnitVectors()) {
+				sf::Vector3i potentialCoords{ tile->Coordinates() + i * unitVector };
+				if (abs(potentialCoords.x) <= Tilemap::Radius() &&
+					abs(potentialCoords.y) <= Tilemap::Radius() &&
+					abs(potentialCoords.z) <= Tilemap::Radius())
+					tile->AddSurroundingTile(Tilemap::GetTile(potentialCoords));
+			}
+}
+
 
 // AddTile adds the 'tile' reference to the tile map according to the tile's coordinates.
 void Tilemap::AddTile(Tile* tile) {
-	_instance_->_tiles_.insert(std::pair<std::array<int, 3>, Tile*>(tile->Coordinates(), tile));
+	sf::Vector3i tileCoordinates{ tile->Coordinates() };
+	_instance_->_tiles_.insert(std::pair<std::array<int, 3>, Tile*>(std::array<int, 3>{
+		tileCoordinates.x,
+			tileCoordinates.y,
+			tileCoordinates.z
+	}, tile));
 }
 
 // GetTile returns the tile whose position matches 'position'.
-Tile* Tilemap::GetTile(std::array<int, 3> position) {
-	Tile*& returnedTile{ _instance_->_tiles_[position] };
+Tile* Tilemap::GetTile(sf::Vector3i position) {
+	Tile*& returnedTile{ _instance_->_tiles_[std::array{position.x, position.y, position.z}] };
 	return returnedTile;
 }
 
@@ -36,8 +80,8 @@ std::map<std::array<int, 3>, Tile*> Tilemap::Tiles() {
 }
 
 // UnitVectors returns the unit vectors.
-std::vector<std::array<int, 3>> Tilemap::UnitVectors() {
-	std::vector<std::array<int, 3>>& returnedUnitVectors{ _instance_->_unitVectors_ };
+std::vector<sf::Vector3i> Tilemap::UnitVectors() {
+	std::vector<sf::Vector3i>& returnedUnitVectors{ _instance_->_unitVectors_ };
 	return returnedUnitVectors;
 }
 
