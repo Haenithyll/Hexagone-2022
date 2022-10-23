@@ -12,7 +12,7 @@ public:
 	static int Radius();
 	static void AddTile(Tile*);
 	static Tile* GetTile(sf::Vector3i);
-	static std::map<std::array<int, 3>, Tile*> Tiles();
+	static std::map<std::array<int, 3>, Tile*>& Tiles();
 	static std::vector<sf::Vector3i> UnitVectors();
 
 private:
@@ -25,10 +25,11 @@ private:
 		sf::Vector3i{ 1,-1,0 }
 	};
 	std::map<std::array<int, 3>, Tile*> _tiles_;
-	std::map<tmpParty, std::vector<Tile*>> _safeZoneTiles_;
+	std::map<Party, std::vector<Tile*>> _safeZoneTiles_;
 
 	static void GenerateTiles();
 	static void InitSurroundingTiles();
+
 	void GenerateSafeZones();
 	void GenerateObstacles();
 };

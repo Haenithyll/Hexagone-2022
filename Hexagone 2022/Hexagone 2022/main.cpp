@@ -6,7 +6,7 @@
 
 int main()
 {
-	sw::Window window("Hexagone 2022", 1368, 1368, 0u, 0u);
+	sw::Window window("Hexagone 2022", 1024, 720, 0u, 0u);
 
 	window.Create(false, 8u);
 

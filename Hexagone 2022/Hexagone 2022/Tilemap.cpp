@@ -7,17 +7,18 @@ Tilemap* Tilemap::_instance_ = nullptr;
 /*	Tilemap generates a new tile map according to 'radius' whose default value is 5 (ignoring the center tile).
 	The center tile is instantiated, which causes the others to generate. */
 void Tilemap::Init(int radius) {
-	if (_instance_ == nullptr)
+	if (_instance_ == nullptr) {
 		_instance_ = new Tilemap();
 
-	_instance_->_radius_ = radius;
-	GenerateTiles();
-	InitSurroundingTiles();
+		_instance_->_radius_ = radius;
+		GenerateTiles();
+		InitSurroundingTiles();
+	}
 }
 
 
 void Tilemap::GenerateTiles() {
-	int radius{ Tilemap::Radius() };
+	int radius{ _instance_->_radius_ };
 	int y, startingY, count, index;
 	for (int x{ -radius }; x <= radius; ++x) {
 		startingY = x > 0 ? radius - x : radius;
@@ -35,18 +36,18 @@ void Tilemap::GenerateTiles() {
 // InitSurroundingTiles sets the surrounding tiles of a specific 'tile' by retrieving all existing tiles with respect to the tilemap's radius.
 void Tilemap::InitSurroundingTiles() {
 
-	for (const auto& [coord, tile] : Tilemap::Tiles())
+	for (const auto& [_, tile] : _instance_->_tiles_)
 		/*
 		Only 3 unit vectors are necessary to define the position of the 6 surrounding tiles.
 		Therefore, a forloop goes through both the unit vectors and their opposite.
 		*/
 		for (int i{ -1 }; i <= 1; i += 2)
-			for (sf::Vector3i unitVector : Tilemap::UnitVectors()) {
+			for (const sf::Vector3i& unitVector : _instance_->_unitVectors_) {
 				sf::Vector3i potentialCoords{ tile->Coordinates() + i * unitVector };
-				if (abs(potentialCoords.x) <= Tilemap::Radius() &&
-					abs(potentialCoords.y) <= Tilemap::Radius() &&
-					abs(potentialCoords.z) <= Tilemap::Radius())
-					tile->AddSurroundingTile(Tilemap::GetTile(potentialCoords));
+				if (abs(potentialCoords.x) <= _instance_->_radius_ &&
+					abs(potentialCoords.y) <= _instance_->_radius_ &&
+					abs(potentialCoords.z) <= _instance_->_radius_)
+					tile->AddSurroundingTile(GetTile(potentialCoords));
 			}
 }
 
@@ -69,20 +70,17 @@ Tile* Tilemap::GetTile(sf::Vector3i position) {
 
 // Radius returns the Hexmap radius (ignoring the center tile).
 int Tilemap::Radius() {
-	int& returnedRadius{ _instance_->_radius_ };
-	return returnedRadius;
+	return _instance_->_radius_;
 }
 
 // Tiles returns the tile map.
-std::map<std::array<int, 3>, Tile*> Tilemap::Tiles() {
-	std::map<std::array<int, 3>, Tile*>& returnedTiles{ _instance_->_tiles_ };
-	return returnedTiles;
+std::map<std::array<int, 3>, Tile*>& Tilemap::Tiles() {
+	return _instance_->_tiles_;
 }
 
 // UnitVectors returns the unit vectors.
 std::vector<sf::Vector3i> Tilemap::UnitVectors() {
-	std::vector<sf::Vector3i>& returnedUnitVectors{ _instance_->_unitVectors_ };
-	return returnedUnitVectors;
+	return _instance_->_unitVectors_;
 }
 
 void Tilemap::GenerateSafeZones() {

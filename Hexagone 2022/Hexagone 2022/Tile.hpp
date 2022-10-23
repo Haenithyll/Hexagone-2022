@@ -4,33 +4,26 @@
 #include <array>
 
 #include "Drawable.hpp"
-#include "BGCharacter.hpp"
 #include "SFML/System/Vector3.hpp"
+#include "Character.hpp"
 
-enum tmpParty {
-	none,
-	parti1,
-	parti2,
-	parti3,
-	parti4
-};
 
 class Tile {
 public:
 
-	Tile(sf::Vector3i coordinates);
+	Tile(const sf::Vector3i& coordinates);
 
-	sf::Vector2f Position();
-	sf::Vector3i Coordinates();
-	bool Obstacle();
-	tmpParty Party();
-	BGCharacter* Character();
-	std::vector<Tile*> SurroundingTiles();
+	sf::Vector2f Position() const;
+	sf::Vector3i Coordinates() const;
+	bool Obstacle() const;
+	Party GetParty() const;
+	const Character* GetCharacter() const;
+	const std::vector<Tile*>& SurroundingTiles();
 
 	void AddSurroundingTile(Tile*);
 	void SetObstacle();
-	void SetParty(tmpParty);
-	void SetCharacter(BGCharacter*);
+	void SetParty(Party);
+	void SetCharacter(Character*);
 	void FreeTile();
 
 private:
@@ -39,8 +32,7 @@ private:
 	std::vector<Tile*> _surroundingTiles_;
 
 	bool _obstacle_{ false };
-	tmpParty _party_{ none };
-	BGCharacter* _character_{ nullptr };
-
+	Party _party_{ None };
+	Character* _character_{ nullptr };
 };
 
