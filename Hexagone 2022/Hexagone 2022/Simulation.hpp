@@ -11,7 +11,7 @@
 class Simulation : public sf::Drawable
 {
 	public:
-		Simulation();
+		Simulation(int radius);
 
 		virtual void Reset();
 

@@ -2,7 +2,7 @@
 
 #include "Log.hpp"
 
-BasicSimulation::BasicSimulation() : Simulation()
+BasicSimulation::BasicSimulation(int radius) : Simulation(radius)
 {
 
 }
