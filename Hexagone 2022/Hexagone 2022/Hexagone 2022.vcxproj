@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Activist.cpp" />
+    <ClCompile Include="BasicSimulation.cpp" />
     <ClCompile Include="BGCharacter.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Activist.hpp" />
+    <ClInclude Include="BasicSimulation.hpp" />
     <ClInclude Include="BGCharacter.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Character.hpp" />
