@@ -32,7 +32,7 @@ class Menu : public Screen
 			white.SetFillColor(sf::Color::White);
 
 			sw::Rectangle red = sw::Rectangle(sf::FloatRect(66.666f, 0.f, 33.333f, 100.f), sw::TopLeft);
-			red.SetFillColor(sf::Color(239.f, 43.f, 45.f));
+			red.SetFillColor(sf::Color(239, 43, 45));
 
 			sw::Text space = sw::Text(font, "Appuyez sur espace pour continuer", sw::Down);
 			space.SetPosition(50.f, 80.f);

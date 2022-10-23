@@ -20,11 +20,9 @@ class Main : public Screen
 
 		int Run(sw::Window& window)
 		{
-			Tilemap::Init(5);
-
 			Log::Init();
 
-			Simulation* simulation = new BasicSimulation();
+			Simulation* simulation = new BasicSimulation(30);
 
 			#pragma region View
 
@@ -35,7 +33,7 @@ class Main : public Screen
 			gridView.SetCenter(simulation->GetGlobalBounds().left, simulation->GetGlobalBounds().top);
 			gridView.SetSize(simulation->GetGlobalBounds().width, simulation->GetGlobalBounds().height);
 
-			gridView.SetMinZoom(5.f / 150.f);
+			gridView.SetMinZoom(5.f / 25.f);
 			gridView.SetMaxZoom(1.f);
 			gridView.SetAutoLock(true);
 
@@ -45,7 +43,6 @@ class Main : public Screen
 
 			bool isPlaying = false;
 
-			int turn = 0;
 			float period = 1.f;
 
 			simulation->Reset();
@@ -99,7 +96,6 @@ class Main : public Screen
 				if (ImGui::Button("Reset"))
 				{
 					isPlaying = false;
-					turn = 0;
 
 					simulation->Reset();
 				}
@@ -141,8 +137,6 @@ class Main : public Screen
 					simulation->Update();
 
 					timer.restart();
-
-					++turn;
 				}
 
 				#pragma region Console

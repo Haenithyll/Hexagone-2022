@@ -7,7 +7,7 @@
 class BasicSimulation : public Simulation
 {
 	public:
-		BasicSimulation();
+		BasicSimulation(int radius);
 
 		void Reset() override;
 };
