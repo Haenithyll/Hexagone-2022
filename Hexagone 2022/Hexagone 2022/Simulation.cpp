@@ -4,14 +4,48 @@
 
 # define M_PI 3.14159265358979323846
 
+Simulation::Simulation()
+{
+	Reset();
+}
+
 void Simulation::Reset()
 {
-
+	mTurn = 0;
+	mIndex = 0;
 }
 
 void Simulation::Update()
 {
+	mCharacters[mIndex]->Move();
 
+	mIndex = (mIndex + 1) % mCharacters.size();
+
+	if (mIndex == 0)
+		++mTurn;
+}
+
+void Simulation::EndTurn()
+{
+	do
+	{
+		Update();
+	} while (mIndex > 0);
+}
+
+int Simulation::GetTurn()
+{
+	return mTurn;
+}
+
+int Simulation::GetIndex()
+{
+	return mIndex;
+}
+
+int Simulation::GetCount()
+{
+	return mCharacters.size();
 }
 
 sf::FloatRect Simulation::GetGlobalBounds()
@@ -53,6 +87,14 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 		line[6] = line[0];
 
-		target.draw(line, 7, sf::LineStrip, states);
+		for (auto& vertex : line)
+			vertex.color = sf::Color(245, 245, 220);
+
+		target.draw(line, 7, sf::TrianglesFan, states);
+
+		for (auto& vertex : line)
+			vertex.color = sf::Color::Black;
+
+		target.draw(line, 7, sf::LinesStrip, states);
 	}
 }

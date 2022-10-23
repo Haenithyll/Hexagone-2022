@@ -4,7 +4,7 @@
 #include "Text.hpp"
 #include "Button.hpp"
 #include "Tilemap.hpp"
-#include "Simulation.hpp"
+#include "BasicSimulation.hpp"
 #include "Log.hpp"
 
 #include "imgui/imgui.h"
@@ -20,65 +20,38 @@ class Main : public Screen
 
 		int Run(sw::Window& window)
 		{
-			Tilemap::Init(3);
+			Tilemap::Init(5);
+
 			Log::Init();
 
-			Simulation simulation;
+			Simulation* simulation = new BasicSimulation();
 
-			simulation.Reset();
+			#pragma region View
 
 			sw::View gridView = window.GetDefaultView();
-			
-			sf::Vector2f scale = gridView.SetScaleViewport(0.f, 0.f, 1.f, 1.f);
-			
-			gridView.SetCenter(simulation.GetGlobalBounds().left, simulation.GetGlobalBounds().top);
-			gridView.SetSize(simulation.GetGlobalBounds().width, simulation.GetGlobalBounds().height);
-			
+
+			gridView.SetScaleViewport(0.f, 0.f, 1.f, 1.f);
+
+			gridView.SetCenter(simulation->GetGlobalBounds().left, simulation->GetGlobalBounds().top);
+			gridView.SetSize(simulation->GetGlobalBounds().width, simulation->GetGlobalBounds().height);
+
 			gridView.SetMinZoom(5.f / 150.f);
 			gridView.SetMaxZoom(1.f);
 			gridView.SetAutoLock(true);
 
-			sf::Rect frame = gridView.GetLocalBounds();
+			#pragma endregion
 
-			frame.left += 5.f;
-			frame.top += 5.f;
+			sf::Clock timer;
 
-			frame.width -= 10.f;
-			frame.height -= 10.f;
+			bool isPlaying = false;
 
-			sw::Button gameFrame(frame);
-			gameFrame.SetOrigin(sw::TopLeft);
-			gameFrame.SetUnit(sw::Pixel);
+			int turn = 0;
+			float period = 1.f;
 
-			frame.left += frame.width;
-			frame.width = window.GetSize().x - frame.width;
-
-			gameFrame.SetOutline(5.f, sf::Color(56, 56, 56));
-			gameFrame.SetFillColor(sf::Color::Transparent);
-
-			frame.width -= 10.f;
-
-			sw::Rectangle infoFrame(frame, sw::TopLeft, sw::Parent, sw::Pixel);
-
-			infoFrame.SetOutline(5.f, sf::Color(56, 56, 56));
-			infoFrame.SetFillColor(sf::Color::Transparent);
-
-			sw::Text frameText(font, "", sw::Left);
-			frameText.SetParent(&infoFrame);
-			frameText.SetSize(100.f, 2.5f);
-			frameText.SetPosition(5.f, 2.5f);
-
-			sw::Text roundText(font, "", sw::Left);
-			roundText.SetParent(&infoFrame);
-			roundText.SetSize(100.f, 2.5f);
-			roundText.SetPosition(5.f, 7.5f);
-
-			int nFrame = 0;
+			simulation->Reset();
 
 			while (window.IsOpen())
 			{
-				window.ResetView();
-
 				sw::EventsData data = window.HandleEvents();
 
 				if (data.close)
@@ -87,14 +60,13 @@ class Main : public Screen
 				if (data.IsKeyPressed(sw::Key::Escape))
 					return 0;
 
-				if (gameFrame.IsMouseHover())
-				{
-					if (data.mouseWheelUp)
-						gridView.Zoom(0.95f);
+				#pragma region Camera
 
-					if (data.mouseWheelDown)
-						gridView.Zoom(1.f / 0.95f);
-				}
+				if (data.mouseWheelUp)
+					gridView.Zoom(0.95f);
+
+				if (data.mouseWheelDown)
+					gridView.Zoom(1.f / 0.95f);
 
 				if (data.IsKeyDown(sw::Key::Left) || data.IsKeyDown(sw::Key::Q))
 					gridView.Move(-1.f * 10.f * gridView.GetZoom(), 0.f);
@@ -108,16 +80,72 @@ class Main : public Screen
 				if (data.IsKeyDown(sw::Key::Down) || data.IsKeyDown(sw::Key::S))
 					gridView.Move(0.f, 1.f * 10.f * gridView.GetZoom());
 
-				window.SetView(gridView);
+				#pragma endregion
 
-				window.Clear(sf::Color::Black);
+				#pragma region Simulation
 
-				window.Draw(simulation);
+				ImGui::Begin("Simulation", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
-				window.ResetView();
+				if (ImGui::Button(isPlaying ? "Pause" : "Play"))
+				{
+					isPlaying = !isPlaying;
 
-				if (nFrame % 100 == 0)
-					simulation.Update();
+					if (isPlaying)
+						timer.restart();
+				}
+
+				ImGui::SameLine();
+
+				if (ImGui::Button("Reset"))
+				{
+					isPlaying = false;
+					turn = 0;
+
+					simulation->Reset();
+				}
+
+				ImGui::Spacing();
+
+				if (ImGui::Button("Update"))
+				{
+					isPlaying = false;
+
+					simulation->Update();
+				}
+
+				ImGui::SameLine();
+
+				if (ImGui::Button("EndTurn"))
+				{
+					isPlaying = false;
+
+					simulation->EndTurn();
+				}
+
+				ImGui::Spacing();
+
+				ImGui::SliderFloat("Period", &period, 0.01f, 5.f);
+
+				ImGui::Spacing();
+
+				ImGui::Text("Pas %i / %i", simulation->GetIndex() + 1, simulation->GetCount());
+
+				ImGui::Text("Tour %i", simulation->GetTurn() + 1);
+
+				ImGui::End();
+
+				#pragma endregion
+
+				if (isPlaying && timer.getElapsedTime().asSeconds() >= period)
+				{
+					simulation->Update();
+
+					timer.restart();
+
+					++turn;
+				}
+
+				#pragma region Console
 
 				ImGui::Begin("Console");
 
@@ -128,15 +156,21 @@ class Main : public Screen
 
 				ImGui::End();
 
-				ImGui::Begin("Infos");
+				#pragma endregion
 
-				ImGui::Button("agrougrou");
+				#pragma region Draw
 
-				ImGui::End();
+				window.Clear(sf::Color::Black);
+
+				window.SetView(gridView);
+
+				window.Draw(*simulation);
+
+				window.ResetView();
 
 				window.Display();
 
-				++nFrame;
+				#pragma endregion
 			}
 
 			return -1;
