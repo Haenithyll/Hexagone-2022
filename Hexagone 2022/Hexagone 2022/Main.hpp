@@ -10,6 +10,8 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui-SFML.h"
 
+#include "PseudoRandom.hpp"
+
 class Main : public Screen
 {
 	public:
@@ -46,6 +48,9 @@ class Main : public Screen
 			float period = 1.f;
 
 			simulation->Reset();
+
+
+			PseudoRandom::ResetSeed(); // The seed reset is here
 
 			while (window.IsOpen())
 			{
@@ -95,6 +100,27 @@ class Main : public Screen
 
 				if (ImGui::Button("Reset"))
 				{
+
+					const int nbParti = 4;
+					int order[4] = { 0 };
+
+					PseudoRandom::GetOrder(nbParti, order);
+					std::string orderString;
+					for (short i = 0; i < nbParti; i++) {
+						orderString += std::to_string(order[i]);
+					}
+					Log::Print("RandomOrdre : " + orderString);
+
+					Log::Print("RandomType : " + std::to_string(PseudoRandom::GetObstacleType(4)));
+
+					Log::Print("RandomInt : " + std::to_string(PseudoRandom::GetInt(-3, 3)));
+
+					sf::Vector3i position = PseudoRandom::GetPosition(3); // Change the radius here
+					Log::Print("RandomPos : " + std::to_string(position.x) + " " + std::to_string(position.y) + " " + std::to_string(position.z));
+
+					sf::Vector3i direction = PseudoRandom::GetDirection();
+					Log::Print("RandomDir : " + std::to_string(direction.x) + " " + std::to_string(direction.y) + " " + std::to_string(direction.z));
+
 					isPlaying = false;
 
 					simulation->Reset();

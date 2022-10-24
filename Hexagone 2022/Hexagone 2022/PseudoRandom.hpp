@@ -1,4 +1,7 @@
 #pragma once
+
+#include "SFML/System/Vector3.hpp"
+
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
@@ -7,18 +10,10 @@
 class PseudoRandom
 {
 public:
-	PseudoRandom(int NumberOfDiffObstacles = 0)
-	{
-		std::srand(std::time(0));
-		mNumberOfDiffObstacles = NumberOfDiffObstacles;
-	}
-
-	std::vector<sf::Vector3<int>> GetPosition(int n, int radius);
-	int GetObstacleType();
-	sf::Vector3<int> GetDirection();
-	int[] GetOrder(int n);
-	int GetInt(int minInclusive, int maxInclusive);
-
-private:
-	short mNumberOfDiffObstacles = 0;
+	static void ResetSeed();
+	static int GetInt(int minInclusive, int maxInclusive);
+	static sf::Vector3i GetPosition(int radius);
+	static sf::Vector3i GetDirection();
+	static int GetObstacleType(int type);
+	static void GetOrder(int n, int* randomOrder);
 };
