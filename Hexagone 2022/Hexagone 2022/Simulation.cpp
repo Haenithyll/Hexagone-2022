@@ -4,9 +4,9 @@
 
 # define M_PI 3.14159265358979323846
 
-Simulation::Simulation(int radius)
+Simulation::Simulation(int radius, patternCenters(Tilemap::*pattern)())
 {
-	Tilemap::Init(radius);
+	Tilemap::Init(radius, pattern);
 
 	Reset();
 }
@@ -74,9 +74,9 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Vertex line[7];
 	sf::Vector2f center;
 
-	for (const auto& tile : Tilemap::Tiles())
+	for (const auto& [_, tile] : Tilemap::Tiles())
 	{
-		center = tile.second->Position();
+		center = tile->Position();
 
 		center *= radius;
 
@@ -90,7 +90,23 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		line[6] = line[0];
 
 		for (auto& vertex : line)
-			vertex.color = sf::Color(245, 245, 220);
+			switch (tile->GetParty()) {
+			case LesRebelles:
+				vertex.color = sf::Color::Red;
+				break;
+			case Reprise:
+				vertex.color = sf::Color::Blue;
+				break;
+			case P3:
+				vertex.color = sf::Color::Cyan;
+				break;
+			case EnRoute:
+				vertex.color = sf::Color::Yellow;
+				break;
+			default:
+				vertex.color = sf::Color(245, 245, 220);
+				break;
+			}
 
 		target.draw(line, 7, sf::TrianglesFan, states);
 

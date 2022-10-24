@@ -2,7 +2,7 @@
 
 #include "Log.hpp"
 
-BasicSimulation::BasicSimulation(int radius) : Simulation(radius)
+BasicSimulation::BasicSimulation(int radius, patternCenters(Tilemap::* pattern)()) : Simulation(radius, pattern)
 {
 
 }

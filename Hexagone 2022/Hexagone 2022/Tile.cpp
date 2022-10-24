@@ -1,17 +1,12 @@
 #include "Tile.hpp"
 #include "Tilemap.hpp"
 
-#define PI 3.14159265359f
-
 /*	Tile instantiates a new tile with a unique 'position' while adding its own reference to the tile map.
 	All of the surrounding tiles are then initialized or retrieved if already existing.*/
 
 Tile::Tile(const sf::Vector3i& coordinates) {
 	_coordinates_ = coordinates;
-	_position_ = sf::Vector2f{
-		coordinates.x + coordinates.y * cosf(2.f * PI / 3.f) + coordinates.z * cosf(-2.f * PI / 3.f),
-		coordinates.y * sinf(2.f * PI / 3.f) + coordinates.z * sinf(-2.f * PI / 3.f)
-	};
+	_position_ = Tilemap::CoordToPosition(coordinates);
 }
 
 

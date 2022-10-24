@@ -1,18 +1,20 @@
 #include "Tilemap.hpp"
 #include "Log.hpp"
 
+#define PI 3.14159265359f
 
 Tilemap* Tilemap::_instance_ = nullptr;
 
 /*	Tilemap generates a new tile map according to 'radius' whose default value is 5 (ignoring the center tile).
 	The center tile is instantiated, which causes the others to generate. */
-void Tilemap::Init(int radius) {
+void Tilemap::Init(int radius, patternCenters(Tilemap::* pattern)()) {
 	if (_instance_ == nullptr) {
 		_instance_ = new Tilemap();
 
 		_instance_->_radius_ = radius;
 		GenerateTiles();
 		InitSurroundingTiles();
+		GenerateSafeZones(pattern);
 	}
 }
 
@@ -83,10 +85,34 @@ std::vector<sf::Vector3i> Tilemap::UnitVectors() {
 	return _instance_->_unitVectors_;
 }
 
-void Tilemap::GenerateSafeZones() {
-	// TODO
+sf::Vector2f Tilemap::CoordToPosition(sf::Vector3i coordinates) {
+	return sf::Vector2f{
+		coordinates.x + coordinates.y * cosf(2.f * PI / 3.f) + coordinates.z * cosf(-2.f * PI / 3.f),
+		coordinates.y * sinf(2.f * PI / 3.f) + coordinates.z * sinf(-2.f * PI / 3.f)
+	};
+}
+
+void Tilemap::GenerateSafeZones(patternCenters(Tilemap::* pattern)()) {
+	for (int i{ -1 }; i <= 1; i += 2)
+		for (sf::Vector3i center : (_instance_->*pattern)()) {
+			Tile* SZTile = _instance_->_tiles_[std::array<int, 3>{i* center.x, i* center.y, i* center.z}];
+			if (SZTile == nullptr)
+				throw std::invalid_argument("Failed attempt to setup safezone tiles : out of map");
+			SZTile->SetParty(Reprise);
+			for (Tile* tile : SZTile->SurroundingTiles())
+				tile->SetParty(Reprise);
+		}
 }
 
 void Tilemap::GenerateObstacles() {
 	// TODO
 }
+
+patternCenters Tilemap::FlowerPattern() {
+	int radius{ _instance_->_radius_ };
+	return patternCenters {
+		sf::Vector3i{ radius - 2, 3 - radius, -1 },
+			sf::Vector3i{ radius / 2 - 1, radius - 1 + -radius / 2, -radius + 2 }
+	};
+}
+

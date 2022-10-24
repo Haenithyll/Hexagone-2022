@@ -11,7 +11,7 @@
 class Simulation : public sf::Drawable
 {
 	public:
-		Simulation(int radius);
+		Simulation(int radius, patternCenters(Tilemap::* pattern)());
 
 		virtual void Reset();
 
