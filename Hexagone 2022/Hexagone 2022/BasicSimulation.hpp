@@ -7,7 +7,7 @@
 class BasicSimulation : public Simulation
 {
 	public:
-		BasicSimulation(int radius);
+		BasicSimulation(int radius, patternCenters(Tilemap::* pattern)());
 
 		void Reset() override;
 };

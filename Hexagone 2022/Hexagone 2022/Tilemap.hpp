@@ -3,10 +3,12 @@
 #include <map>
 #include "Tile.hpp"
 
+typedef std::vector<sf::Vector3i> patternCenters;
+
 class Tilemap {
 
 public:
-	static void Init(int radius = 2);
+	static void Init(int, patternCenters(Tilemap::* )());
 	
 
 	static int Radius();
@@ -14,6 +16,9 @@ public:
 	static Tile* GetTile(sf::Vector3i);
 	static std::map<std::array<int, 3>, Tile*>& Tiles();
 	static std::vector<sf::Vector3i> UnitVectors();
+	static sf::Vector2f CoordToPosition(sf::Vector3i);
+
+	patternCenters FlowerPattern();
 
 private:
 	static Tilemap* _instance_;
@@ -30,6 +35,6 @@ private:
 	static void GenerateTiles();
 	static void InitSurroundingTiles();
 
-	void GenerateSafeZones();
+	static void GenerateSafeZones(patternCenters(Tilemap::*)());
 	void GenerateObstacles();
 };

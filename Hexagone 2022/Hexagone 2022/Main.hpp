@@ -24,7 +24,7 @@ class Main : public Screen
 		{
 			Log::Init();
 
-			Simulation* simulation = new BasicSimulation(30);
+			Simulation* simulation = new BasicSimulation(7, &Tilemap::FlowerPattern);
 
 			#pragma region View
 
