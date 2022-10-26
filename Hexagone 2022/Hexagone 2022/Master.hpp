@@ -5,6 +5,5 @@
 class Master : public Character
 {
 public:
-	virtual void Move() override;
 };
 

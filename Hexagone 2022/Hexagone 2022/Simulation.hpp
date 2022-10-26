@@ -28,8 +28,8 @@ class Simulation : public sf::Drawable
 	protected:
 		int mIndex = 0;
 		int mTurn = 0;
-
-		std::vector<Character*> mCharacters;
+		std::map<std::array<int, 3>, Character*> mAllCharacters;
+		std::vector<sf::Vector3i> mCharacterPositions;
 
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;

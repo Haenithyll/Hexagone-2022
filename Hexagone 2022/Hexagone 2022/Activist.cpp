@@ -1,97 +1,56 @@
 #include "Activist.hpp"
 #include "Master.hpp"
-void Activist::Move()
+
+Action Activist::DecideAction()
 {
-	/*std::vector<sf::Vector3i> pathToTravel;
-	int nTravelLength = _nMinMove; // PseudoRandom::GetInt(_nMinMove, _nMaxMove);
-	if ((float)_energyPoints / _maxEnergyPoints <= 0.2)
-	{
-		pathToTravel = Tilemap::GetSafeZonePath(_position, _party);
-	}
+	if ((float)_energyPoints / _maxEnergyPoints <= 0.2f)
+		return BackToHome;
+	return RandomMove;
+}
+
+int Activist::DecideMoveRange()
+{
+	return _nMinMove; //PseudoRandom::GetInt(_nMinMove, _nMaxMove);
+}
+
+void Activist::Meet(Character* character)
+{
+	if (character->GetParty() == _party)
+		MessagesUnion(character);
+	else if (character->GetParty() == _allyParty)
+		ShareMessages(character);
 	else
-	{
-		for (int i = 0; i < nTravelLength; i++)
-		{
-			sf::Vector3i move = sf::Vector3i(1, 1, 1); // PseudoRandom::GetDirection();
-			while (Tilemap::GetTile(_position + move) == nullptr || move == _lastDirection)
-			{
-				move = sf::Vector3i(1, 0, 1); // PseudoRandom::GetDirection();
-			}
+		Fight(character);
+}
 
-			pathToTravel.push_back(Tilemap::GetTile(_position + move));
-			_lastDirection = move;
-		}
-	}
+void Activist::MeetMaster()
+{
+	/* Requires master singletons !*/ 
+	// ---------------------------
 
-	for (int i = 0; i < pathToTravel.size(); i++)
-	{
-		if (_energyPoints-- <= 0)
-		{
-			_isDead = true;
-			Tilemap::GetTile(_position)->Obstacle = true;
-			//GraphicUpdate
-		}
-		Tile nextTile = pathToTravel[i];
-		if (nextTile.Obstacle || nextTile.Safezone != _party)
-			break;
-
-		//we didn't encounter an obstacle so lastDirection is reset
-		_lastDirection = sf::Vector3i(0, 0, 0);
-
-		Character* character = nextTile->Character;
-		if (character != nullptr)
-		{
-			if (character->GetParty() == _party)
-				MessagesUnion(character->GetMessages());
-			else if (character->GetParty() == _allyParty)
-				ShareMessages(character);
-			else
-				Fight(character);
-			break;
-		}
-		else 
-		{
-			*character = *this;
-			Tilemap::GetTile(_position)->Character = nullptr;
-			//GraphicUpdate
-			if (nextTile.Safezone == _party)
-			{
-				Master* master;
-				ReceiveMessages(master->GetMessages());
-				_energyPoints = _maxEnergyPoints;
-			}
-		}
-	}*/
+	//Master* master;
+	//_energyPoints = _maxEnergyPoints;
+	//MessagesUnion(master);
 }
 
 void Activist::Fight(Character* character)
 {
-	Character* winner;
-	Character* loser;
-	//50/50
-	//if (PseudoRandom.GetInt(0, 1) == 0)
-	if (true)
+	bool b = true; //(PseudoRandom.GetInt(0, 1) == 0)
+	Character* winner = b ? this : character;
+	Character* loser = b ? character : this;
+
+	int amountToTake = 1;//PseudoRandom::GetInt(1, std::min(3, (int)loser->GetMessages()->size()));
+	const std::vector<const std::string*>* loserMessages = loser->GetMessages();
+	const std::vector<const std::string*>* winnerMessages = winner->GetMessages();
+	
+	for (int i = 0; i < loserMessages->size(); ++i)
 	{
-		winner = this;
-		loser = character;
-	}
-	else
-	{
-		winner = character;
-		loser = this;
-	}
-	int nTaken = 3;//PseudoRandom::GetInt(1, std::min(3, (int)loser->GetMessages()->size()));
-	int counter = 0;
-	std::vector<std::string*>* loserMessages = loser->GetMessages();
-	std::vector<std::string*>* winnerMessages = winner->GetMessages();
-	for (int j = 0; j < loserMessages->size(); j++)
-	{
-		std::string* message = (*loserMessages)[j];
-		if (std::find(winnerMessages->begin(), winnerMessages->end(), message) == winnerMessages->end())//message not in vector
+		const std::string* message = (*loserMessages)[i];
+		if (std::find(winnerMessages->begin(), winnerMessages->end(), message) == winnerMessages->end())//message not in winnerMessages
 		{
-			winnerMessages->push_back(message);
-			loserMessages->erase(loserMessages->begin() + j);
-			if (++counter >= nTaken)
+			winner->AddMessage(message);
+			loser->DeleteMessage(i--);
+			if (--amountToTake < 1)
 				break;
 		}
 	}
@@ -100,33 +59,19 @@ void Activist::Fight(Character* character)
 void Activist::ShareMessages(Character* character)
 {
 	//shares 1 message each
-	std::vector<std::string*>* otherMessages = character->GetMessages();
-	for (int i = 0; i < otherMessages->size(); i++)
-	{
-		if (std::find(_messages.begin(), _messages.end(), (*otherMessages)[i]) == _messages.end())//message not in vector
-		{
-			_messages.push_back((*otherMessages)[i]);
-			break;
-		}
-	}
-	for (int i = 0; i < otherMessages->size(); i++)
-	{
-		if (std::find(_messages.begin(), _messages.end(), (*otherMessages)[i]) == _messages.end())//message not in vector
-		{
-			_messages.push_back((*otherMessages)[i]);
-			break;
-		}
-	}
+	ReceiveMessages(character->GetMessages(), 1);
+	character->ReceiveMessages(&_messages, 1);
 }
 
-void Activist::MessagesUnion(std::vector<std::string*>* newMessages)
+void Activist::MessagesUnion(Character* character)
 {
-	for (int i = 0; i < newMessages->size(); i++)
+	const std::vector<const std::string*>* otherMessages = character->GetMessages();
+	for (const std::string* message : *otherMessages)
 	{
-		if (std::find(_messages.begin(), _messages.end(), (*newMessages)[i]) == _messages.end())//message not in vector
+		if (std::find(_messages.begin(), _messages.end(), message) == _messages.end())//message not in _messages
 		{
-			_messages.push_back((*newMessages)[i]);
+			_messages.push_back(message);
 		}
 	}
-	*newMessages = _messages;
+	character->SetMessages(_messages);
 }

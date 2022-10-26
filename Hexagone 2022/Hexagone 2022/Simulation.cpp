@@ -1,6 +1,8 @@
 #include "Simulation.hpp"
 
 #include "Tilemap.hpp"
+#include <random>
+#include <algorithm>
 
 # define M_PI 3.14159265358979323846
 
@@ -19,9 +21,72 @@ void Simulation::Reset()
 
 void Simulation::Update()
 {
-	mCharacters[mIndex]->Move();
+	sf::Vector3i currentCharacterPosition = mCharacterPositions[mIndex];
+	Character* currentCharacter = mAllCharacters[std::array<int, 3>{
+		currentCharacterPosition.x,
+		currentCharacterPosition.y,
+		currentCharacterPosition.z
+	}];
+	int moveRange = currentCharacter->DecideMoveRange();
+	Action action = currentCharacter->DecideAction();
+	std::vector<sf::Vector3i> pathToTravel;
+	if (action == Action::BackToHome)
+	{
+		//pathToTravel = Tilemap::GetSafeZonePath(_position, currentCharacter->GetParty());
+	}
+	else if (action == Action::RandomMove)
+	{
+		for (int i = 0; i < moveRange; ++i)
+		{
+			sf::Vector3i move = sf::Vector3i(1, 1, 1); // PseudoRandom::GetDirection();
+			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == currentCharacter->GetLastDirection())
+			{
+				move = sf::Vector3i(1, 0, 1); // PseudoRandom::GetDirection();
+			}
 
-	mIndex = (mIndex + 1) % mCharacters.size();
+			pathToTravel.push_back(currentCharacterPosition + move);
+			currentCharacter->SetLastDirection(move);
+		}
+	}
+
+	for (sf::Vector3i nextPosition : pathToTravel)
+	{
+		if (currentCharacter->LoseEnergy())//if Character has no energy
+		{
+			//_isDead = true;
+			mAllCharacters.erase(std::array<int, 3>{
+				currentCharacterPosition.x,
+					currentCharacterPosition.y,
+					currentCharacterPosition.z}
+			);
+			mIndex = (mIndex - 1) % mCharacterPositions.size();
+			Tilemap::GetTile(currentCharacterPosition)->SetObstacle();
+		}
+		Tile* nextTile = Tilemap::GetTile(nextPosition);
+		if (nextTile->Obstacle() || nextTile->GetParty() != currentCharacter->GetParty())
+			break;
+
+		//we didn't encounter an obstacle so lastDirection is reset
+		currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
+
+		std::map<std::array<int, 3>, Character*>::iterator nextCharacterIt = mAllCharacters.find(std::array<int, 3> {
+			nextPosition.x,
+				nextPosition.y,
+				nextPosition.z
+		});
+		if (nextCharacterIt != mAllCharacters.end())
+		{
+			currentCharacter->Meet(nextCharacterIt->second);
+		}
+		else
+		{
+			if (nextTile->GetParty() == currentCharacter->GetParty())
+			{
+				currentCharacter->MeetMaster();
+			}
+		}
+	}
+	mIndex = (mIndex + 1) % mCharacterPositions.size();
 
 	if (mIndex == 0)
 		++mTurn;
@@ -29,6 +94,8 @@ void Simulation::Update()
 
 void Simulation::EndTurn()
 {
+	std::random_device rd;
+	std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
 	do
 	{
 		Update();
@@ -47,7 +114,7 @@ int Simulation::GetIndex()
 
 int Simulation::GetCount()
 {
-	return mCharacters.size();
+	return mAllCharacters.size();
 }
 
 sf::FloatRect Simulation::GetGlobalBounds()

@@ -1,12 +1,29 @@
 #include "Character.hpp"
 
-void Character::ReceiveMessages(std::vector<std::string*>* otherMessages)
+void Character::ReceiveMessages(const std::vector<const std::string*>* newMessages, int amountToTake)
 {
-	for (int i = 0; i < otherMessages->size(); i++)
+	for (const std::string* message : *newMessages)
 	{
-		if (std::find(_messages.begin(), _messages.end(), (*otherMessages)[i]) == _messages.end())//message not in vector
+		if (std::find(_messages.begin(), _messages.end(), message) == _messages.end())//message not in _messages
 		{
-			_messages.push_back((*otherMessages)[i]);
+			_messages.push_back(message);
+			if (--amountToTake < 1)
+				break;
 		}
 	}
+}
+
+void Character::AddMessage(const std::string* message)
+{
+	_messages.push_back(message);
+}
+
+void Character::DeleteMessage(int index)
+{
+	_messages.erase(_messages.begin() + index);
+}
+
+bool Character::LoseEnergy()
+{
+	return _energyPoints-- <= 0;
 }

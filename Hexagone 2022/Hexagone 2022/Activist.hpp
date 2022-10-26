@@ -5,26 +5,22 @@
 class Activist : public Character
 {
 public:
-	Activist(Party party, Party allyParty, sf::Vector3i position, int maxEnergy, int nMinMove, int nMaxMove):Character(party, allyParty, position)
+	Activist(Party party, Party allyParty, int maxEnergy,
+		int nMinMove, int nMaxMove)
+		:Character(party, allyParty, maxEnergy)
 	{
-		_maxEnergyPoints = maxEnergy;
-		_energyPoints = _maxEnergyPoints;
-		_isDead = false;
-		_lastDirection = sf::Vector3i();
 		_nMinMove = nMinMove;
 		_nMaxMove = nMaxMove;
 	}
-	virtual void Move() override;
+	virtual Action DecideAction() override;
+	virtual int DecideMoveRange() override;
+	virtual void Meet(Character* character) override;
+	virtual void MeetMaster() override;
 private:
-	int _energyPoints;
-	int _maxEnergyPoints;
-	bool _isDead;
-	sf::Vector3i _lastDirection;
 	int _nMinMove;
 	int _nMaxMove;
 
-	void Fight(Character*);
-	void ShareMessages(Character*);
-	void MessagesUnion(std::vector<std::string*>*);
+	void Fight(Character* character);
+	void ShareMessages(Character* character);
+	void MessagesUnion(Character* character);
 };
-
