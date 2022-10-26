@@ -36,5 +36,5 @@ private:
 	static void InitSurroundingTiles();
 
 	static void GenerateSafeZones(patternCenters(Tilemap::*)());
-	void GenerateObstacles();
+	static void GenerateObstacles(int nbObst);
 };

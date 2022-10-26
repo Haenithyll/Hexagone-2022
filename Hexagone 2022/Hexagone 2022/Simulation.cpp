@@ -90,6 +90,7 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		line[6] = line[0];
 
 		for (auto& vertex : line)
+		{
 			switch (tile->GetParty()) {
 			case LesRebelles:
 				vertex.color = sf::Color::Red;
@@ -107,6 +108,8 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 				vertex.color = sf::Color(245, 245, 220);
 				break;
 			}
+			if (tile->Obstacle()) vertex.color = sf::Color(75, 75, 75); // obstacles will be displayed as grey
+		}
 
 		target.draw(line, 7, sf::TrianglesFan, states);
 

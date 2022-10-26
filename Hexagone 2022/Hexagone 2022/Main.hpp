@@ -109,13 +109,13 @@ class Main : public Screen
 					for (short i = 0; i < nbParti; i++) {
 						orderString += std::to_string(order[i]);
 					}
-					Log::Print("RandomOrdre : " + orderString);
+					Log::Print("RandomOrd : " + orderString);
 
-					Log::Print("RandomType : " + std::to_string(PseudoRandom::GetObstacleType(4)));
+					Log::Print("RandomTyp : " + std::to_string(PseudoRandom::GetObstacleType(4)));
 
-					Log::Print("RandomInt : " + std::to_string(PseudoRandom::GetInt(-3, 3)));
+					Log::Print("RandomInt : " + std::to_string(PseudoRandom::GetInt(-Tilemap::Radius(), Tilemap::Radius())));
 
-					sf::Vector3i position = PseudoRandom::GetPosition(3); // Change the radius here
+					sf::Vector3i position = PseudoRandom::GetPosition(Tilemap::Radius()); // Change the radius here
 					Log::Print("RandomPos : " + std::to_string(position.x) + " " + std::to_string(position.y) + " " + std::to_string(position.z));
 
 					sf::Vector3i direction = PseudoRandom::GetDirection();

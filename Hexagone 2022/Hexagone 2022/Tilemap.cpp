@@ -1,5 +1,6 @@
 #include "Tilemap.hpp"
 #include "Log.hpp"
+#include "PseudoRandom.hpp"
 
 #define PI 3.14159265359f
 
@@ -15,6 +16,7 @@ void Tilemap::Init(int radius, patternCenters(Tilemap::* pattern)()) {
 		GenerateTiles();
 		InitSurroundingTiles();
 		GenerateSafeZones(pattern);
+		GenerateObstacles(20);
 	}
 }
 
@@ -104,8 +106,18 @@ void Tilemap::GenerateSafeZones(patternCenters(Tilemap::* pattern)()) {
 		}
 }
 
-void Tilemap::GenerateObstacles() {
-	// TODO
+void Tilemap::GenerateObstacles(int nbObst) {
+	sf::Vector3i randomPos;
+	for (short i = 0; i < nbObst; i++) {
+		Tile* ObsTile = GetTile(PseudoRandom::GetPosition(Tilemap::Radius()));
+		while (ObsTile->GetParty() != None && ObsTile->Obstacle() == false)
+		{
+			ObsTile = GetTile(PseudoRandom::GetPosition(Tilemap::Radius()));
+		}
+		ObsTile->SetObstacle();
+		//PseudoRandom::ResetSeed(); // turbo bugs
+	}
+	return;
 }
 
 patternCenters Tilemap::FlowerPattern() {

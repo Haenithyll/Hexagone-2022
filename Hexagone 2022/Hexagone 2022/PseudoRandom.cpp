@@ -2,7 +2,7 @@
 
 
 void PseudoRandom::ResetSeed() {
-	std::srand(std::time(0));
+	std::srand((unsigned int) std::time(0));
 	return;
 }
 
@@ -21,7 +21,9 @@ sf::Vector3i PseudoRandom::GetPosition(int radius)
 {
 	int x = GetInt(-radius, radius), y;
 
-	//y = GetInt(x > 0 ? -radius : -radius - x, x > 0 ? radius * 2 - x : radius);
+	//y = GetInt(x > 0 ? -radius : -radius - x, x > 0 ? radius - x : radius);
+	//or
+	//y = x > 0 ? GetInt(-radius, radius - x) : GetInt(-radius - x, radius);
 	//or
 	//x > 0 ? y = GetInt(-radius, radius - x) : y = GetInt(-radius - x, radius);
 	//or
@@ -35,7 +37,12 @@ sf::Vector3i PseudoRandom::GetPosition(int radius)
 
 sf::Vector3i PseudoRandom::GetDirection()
 {
-	return sf::Vector3i(GetPosition(1));
+	sf::Vector3i dir;
+	do
+	{
+		dir = sf::Vector3i(GetPosition(1));
+	} while ((abs(dir.x) + abs(dir.y) + abs(dir.z)) == 0);
+	return dir;
 }
 
 int PseudoRandom::GetObstacleType(int type)
@@ -48,8 +55,10 @@ void PseudoRandom::GetOrder(int n, int* randomOrder)
 	int tmp;
 	bool unique = true;
 
-	for (short i = 0; i < n; i++) {
-		do {
+	for (short i = 0; i < n; i++) 
+	{
+		do 
+		{
 			unique = true;
 			tmp = GetInt(1, n);
 			for (short j = 0; j < n - 1; j++) { // no need to check the last one

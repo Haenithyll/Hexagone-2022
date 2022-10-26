@@ -21,6 +21,6 @@ protected:
 	std::vector<std::string*> _messages;
 	Party _party;
 	Party _allyParty;
-	sf::Vector3<int> _position;
+	sf::Vector3i _position;
 };
 
