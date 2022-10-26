@@ -132,7 +132,7 @@ class Main : public Screen
 				{
 					isPlaying = false;
 
-					simulation->Update();
+					simulation->Step();
 				}
 
 				ImGui::SameLine();
@@ -158,9 +158,11 @@ class Main : public Screen
 
 				#pragma endregion
 
+				simulation->Update(window.GetDeltaTime());
+
 				if (isPlaying && timer.getElapsedTime().asSeconds() >= period)
 				{
-					simulation->Update();
+					simulation->Step();
 
 					timer.restart();
 				}

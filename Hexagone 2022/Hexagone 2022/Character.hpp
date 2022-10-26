@@ -1,14 +1,20 @@
 #pragma once
+
+#include "SFML/System/Vector3.hpp"
+#include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/Graphics/Drawable.hpp"
+
+#include "Animable.hpp"
+
 #include <vector>
 #include <string>
-#include <SFML/System/Vector3.hpp>
 
 enum Action { RandomMove, BackToHome };
 enum Party { None, LesRebelles, EnRoute, P3, Reprise };
-class Character
+class Character : public sf::Drawable, public Animable
 {
 public:
-	Character(Party party, Party allyParty, int maxEnergy)
+	Character(Party party, Party allyParty, int maxEnergy) : Animable(16, 0)
 	{
 		_party = party;
 		_allyParty = allyParty;
@@ -42,5 +48,8 @@ protected:
 	sf::Vector3i _lastDirection{ sf::Vector3i() };
 	int _energyPoints;
 	int _maxEnergyPoints;
+
+private:
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

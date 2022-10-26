@@ -117,6 +117,12 @@
     <ClCompile Include="PseudoRandom.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Animable.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Fichiers sources\SFML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.hpp">
@@ -202,6 +208,12 @@
     </ClInclude>
     <ClInclude Include="PseudoRandom.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Animable.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.hpp">
+      <Filter>Fichiers d%27en-tête\SFML</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

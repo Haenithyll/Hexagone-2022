@@ -7,16 +7,20 @@
 #include "Tilemap.hpp"
 
 #include "Drawable.hpp"
+#include "TextureManager.hpp"
+#include "Animable.hpp"
 
-class Simulation : public sf::Drawable
+class Simulation : public sf::Drawable, public Animable
 {
 	public:
 		Simulation(int radius, patternCenters(Tilemap::* pattern)());
 
 		virtual void Reset();
 
-		void Update();
+		void Step();
 		void EndTurn();
+
+		virtual void Update(float deltaTime);
 
 		int GetTurn();
 

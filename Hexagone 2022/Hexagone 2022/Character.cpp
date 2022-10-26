@@ -1,4 +1,5 @@
 #include "Character.hpp"
+#include "TextureManager.hpp"
 
 void Character::ReceiveMessages(const std::vector<const std::string*>* newMessages, int amountToTake)
 {
@@ -26,4 +27,16 @@ void Character::DeleteMessage(int index)
 bool Character::LoseEnergy()
 {
 	return _energyPoints-- <= 0;
+}
+void Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	int row = mIndex / 4;
+	int column = mIndex % 4;
+
+	sf::Sprite sprite(TextureManager::GetTexture("Character"), sf::IntRect(column * 50, row * 50, 50, 50));
+
+	sprite.setOrigin(sf::Vector2f(25.f, 25.f));
+	sprite.setPosition(sf::Vector2f());
+
+	target.draw(sprite);
 }

@@ -8,6 +8,10 @@ int main()
 {
 	sw::Window window("Hexagone 2022", 720, 720, 0u, 0u);
 
+	TextureManager::Init();
+
+	TextureManager::LoadTextureFromFile("Character", "./sprites/character.png");
+
 	window.Create(false, 8u);
 
 	int index = 0;

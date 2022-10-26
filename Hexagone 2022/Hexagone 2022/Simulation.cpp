@@ -19,7 +19,7 @@ void Simulation::Reset()
 	mIndex = 0;
 }
 
-void Simulation::Update()
+void Simulation::Step()
 {
 	sf::Vector3i currentCharacterPosition = mCharacterPositions[mIndex];
 	Character* currentCharacter = mAllCharacters[std::array<int, 3>{
@@ -98,8 +98,14 @@ void Simulation::EndTurn()
 	std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
 	do
 	{
-		Update();
+		Step();
 	} while (mIndex > 0);
+}
+
+void Simulation::Update(float deltaTime)
+{
+	for (const auto& [_,character] : mAllCharacters)
+		character->Update(deltaTime);
 }
 
 int Simulation::GetTurn()
@@ -136,7 +142,7 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	const float offsetY = sin * radius;
 
 	const float stepX = radius * 1.5f;
-	const float stepY = offsetY*  2.f;
+	const float stepY = offsetY * 2.f;
 
 	sf::Vertex line[7];
 	sf::Vector2f center;
@@ -185,4 +191,7 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 		target.draw(line, 7, sf::LinesStrip, states);
 	}
+
+	for (const auto& [_,character] : mAllCharacters)
+		target.draw(*character);
 }
