@@ -3,23 +3,19 @@
 #include "Screen.hpp"
 #include "Text.hpp"
 #include "Button.hpp"
+#include "AssetManager.hpp"
 
 class Menu : public Screen
 {
 	public:
-		Menu()
-		{
-			font.loadFromFile("Roboto-Thin.ttf");
-		}
-
 		int Run(sw::Window& window)
 		{
-			sw::Text title_name = sw::Text(font, "Hexagone", sw::Top);
+			sw::Text title_name = sw::Text(AssetManager::GetFont("Default"), "Hexagone", sw::Top);
 			title_name.SetPosition(50.f, 20.f);
 			title_name.SetSize(27.5f, 30.f);
 			title_name.SetFillColor(sf::Color::Black);
 
-			sw::Text title_year = sw::Text(font, "2022", sw::Top);
+			sw::Text title_year = sw::Text(AssetManager::GetFont("Default"), "2022", sw::Top);
 			title_year.SetParent(&title_name);
 			title_year.SetSize(100.f, 100.f);
 			title_year.SetPosition(50.f, 125.f);
@@ -34,7 +30,7 @@ class Menu : public Screen
 			sw::Rectangle red = sw::Rectangle(sf::FloatRect(66.666f, 0.f, 33.333f, 100.f), sw::TopLeft);
 			red.SetFillColor(sf::Color(239, 43, 45));
 
-			sw::Text space = sw::Text(font, "Appuyez sur espace pour continuer", sw::Down);
+			sw::Text space = sw::Text(AssetManager::GetFont("Default"), "Appuyez sur espace pour continuer", sw::Down);
 			space.SetPosition(50.f, 80.f);
 			space.SetSize(27.5f, 30.f);
 			space.SetFillColor(sf::Color::Black);
@@ -82,7 +78,4 @@ class Menu : public Screen
 
 			return -1;
 		}
-
-	private:
-		sf::Font font;
 };

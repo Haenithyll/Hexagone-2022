@@ -104,7 +104,7 @@ void Simulation::EndTurn()
 
 void Simulation::Update(float deltaTime)
 {
-	for (const auto& [_,character] : mAllCharacters)
+	for (const auto& [position, character] : mAllCharacters)
 		character->Update(deltaTime);
 }
 
@@ -139,11 +139,6 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	const float cos = cosf(angle);
 	const float sin = sinf(angle);
 
-	const float offsetY = sin * radius;
-
-	const float stepX = radius * 1.5f;
-	const float stepY = offsetY * 2.f;
-
 	sf::Vertex line[7];
 	sf::Vector2f center;
 
@@ -164,24 +159,36 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 		for (auto& vertex : line)
 		{
-			switch (tile->GetParty()) {
+			switch (tile->GetParty())
+			{
 			case LesRebelles:
 				vertex.color = sf::Color::Red;
+
 				break;
+
 			case Reprise:
 				vertex.color = sf::Color::Blue;
+
 				break;
+
 			case P3:
 				vertex.color = sf::Color::Cyan;
+
 				break;
+
 			case EnRoute:
 				vertex.color = sf::Color::Yellow;
+
 				break;
+
 			default:
 				vertex.color = sf::Color(245, 245, 220);
+
 				break;
 			}
-			if (tile->Obstacle()) vertex.color = sf::Color(75, 75, 75); // obstacles will be displayed as grey
+
+			if (tile->Obstacle())
+				vertex.color = sf::Color(75, 75, 75);
 		}
 
 		target.draw(line, 7, sf::TrianglesFan, states);
@@ -192,6 +199,6 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		target.draw(line, 7, sf::LinesStrip, states);
 	}
 
-	for (const auto& [_,character] : mAllCharacters)
+	for (const auto& [position, character] : mAllCharacters)
 		target.draw(*character);
 }

@@ -3,6 +3,9 @@
 #include "SFML/System/Vector3.hpp"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/Drawable.hpp"
+#include "SFML/Graphics/CircleShape.hpp"
+#include "Text.hpp"
+#include "Rectangle.hpp"
 
 #include "Animable.hpp"
 
@@ -41,6 +44,9 @@ public:
 		_lastDirection = value;
 	}
 	bool LoseEnergy();
+
+	void SetDrawState(bool idle);
+
 protected:
 	std::vector<const std::string*> _messages;
 	Party _party;
@@ -50,6 +56,8 @@ protected:
 	int _maxEnergyPoints;
 
 private:
+	bool mIdle;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

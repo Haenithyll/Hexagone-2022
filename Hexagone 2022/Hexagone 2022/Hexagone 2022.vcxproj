@@ -154,7 +154,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="View.cpp" />
@@ -186,7 +186,7 @@
     <ClInclude Include="Main.hpp" />
     <ClInclude Include="Simulation.hpp" />
     <ClInclude Include="Text.hpp" />
-    <ClInclude Include="TextureManager.hpp" />
+    <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Tile.hpp" />
     <ClInclude Include="Tilemap.hpp" />
     <ClInclude Include="View.hpp" />
@@ -194,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="sprites\character.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "imgui/imgui.h"
 #include "imgui/imgui-SFML.h"
 
@@ -9,6 +11,7 @@ class Log
 		static void Init();
 
 		static void Print(const std::string& message);
+		static void Print(const sf::Vector2f& message);
 
 		static const std::vector<std::string>& GetMessages();
 

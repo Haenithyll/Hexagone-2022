@@ -15,11 +15,6 @@
 class Main : public Screen
 {
 	public:
-		Main()
-		{
-			font.loadFromFile("Roboto-Thin.ttf");
-		}
-
 		int Run(sw::Window& window)
 		{
 			Log::Init();
@@ -197,7 +192,4 @@ class Main : public Screen
 
 			return -1;
 		}
-
-	private:
-		sf::Font font;
 };

@@ -94,6 +94,11 @@ sf::Vector2f Tilemap::CoordToPosition(sf::Vector3i coordinates) {
 	};
 }
 
+sf::Vector2f Tilemap::CoordToPosition(std::array<int, 3> coordinates)
+{
+	return CoordToPosition(sf::Vector3i(coordinates[0], coordinates[1], coordinates[2]));
+}
+
 void Tilemap::GenerateSafeZones(patternCenters(Tilemap::* pattern)()) {
 	for (int i{ -1 }; i <= 1; i += 2)
 		for (sf::Vector3i center : (_instance_->*pattern)()) {

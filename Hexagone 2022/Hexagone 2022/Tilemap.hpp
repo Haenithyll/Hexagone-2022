@@ -17,6 +17,7 @@ public:
 	static std::map<std::array<int, 3>, Tile*>& Tiles();
 	static std::vector<sf::Vector3i> UnitVectors();
 	static sf::Vector2f CoordToPosition(sf::Vector3i);
+	static sf::Vector2f CoordToPosition(std::array<int, 3>);
 
 	patternCenters FlowerPattern();
 

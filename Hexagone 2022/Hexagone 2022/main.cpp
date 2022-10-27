@@ -6,11 +6,12 @@
 
 int main()
 {
-	sw::Window window("Hexagone 2022", 720, 720, 0u, 0u);
+	sw::Window window("Hexagone 2022", 1368, 1368, 0u, 0u);
 
-	TextureManager::Init();
+	AssetManager::Init();
 
-	TextureManager::LoadTextureFromFile("Character", "./sprites/character.png");
+	AssetManager::LoadTextureFromFile("Character", "./sprites/character.png");
+	AssetManager::LoadFontFromFile("Default", "./Roboto-Thin.ttf");
 
 	window.Create(false, 8u);
 

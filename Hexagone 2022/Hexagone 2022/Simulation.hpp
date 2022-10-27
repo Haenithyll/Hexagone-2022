@@ -5,9 +5,10 @@
 
 #include "Character.hpp"
 #include "Tilemap.hpp"
+#include  "Log.hpp"
 
 #include "Drawable.hpp"
-#include "TextureManager.hpp"
+#include "AssetManager.hpp"
 #include "Animable.hpp"
 
 class Simulation : public sf::Drawable, public Animable
