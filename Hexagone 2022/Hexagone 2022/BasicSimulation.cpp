@@ -23,7 +23,7 @@ void BasicSimulation::Reset()
 
 		std::string name = names[PseudoRandom::GetInt(0, names.size() - 1)];
 
-		Character* character = new Activist("dé&dé", Party::Reprise, Party::P3, 10, 2, 5);
+		Character* character = new Activist(name, Party::Reprise, Party::P3, 10, 2, 5);
 		character->MoveTo(Tilemap::CoordToPosition(position) * 75.f, 3.f);
 
 		mAllCharacters[std::array<int, 3> { position.x, position.y, position.z }] = character;
