@@ -22,7 +22,7 @@ public:
     void Meet(Character* character) override;
     void MeetMaster() override;
 protected:
-    Master(Party party, Party allyParty, int maxEnergy):Character(party, allyParty, maxEnergy)
+    Master(const std::string& name, Party party, Party allyParty, int maxEnergy):Character(name, party, allyParty, maxEnergy)
     {
         
     }

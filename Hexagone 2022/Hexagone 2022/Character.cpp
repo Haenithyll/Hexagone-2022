@@ -72,7 +72,7 @@ void Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	dot.setPosition(center.x - width / 2.f, center.y - 50.f);
 	name.setPosition(center.x - width / 2.f + dotSpace, center.y - 50.f);
 
-	target.draw(sprite);
-	target.draw(dot);
-	target.draw(name);
+	target.draw(sprite, states);
+	target.draw(dot, states);
+	target.draw(name, states);
 }
