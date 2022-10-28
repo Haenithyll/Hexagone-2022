@@ -13,6 +13,7 @@ int main()
 	AssetManager::LoadTextureFromFile("Character", "./sprites/character.png");
 	AssetManager::LoadTextureFromFile("Obstacle", "./sprites/obstacle.png");
 	AssetManager::LoadFontFromFile("Default", "./Roboto-Thin.ttf");
+	AssetManager::LoadTextFromFile("Names", "names.txt");
 
 	window.Create(false, 8u);
 

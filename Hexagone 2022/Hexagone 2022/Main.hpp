@@ -17,6 +17,8 @@ class Main : public Screen
 	public:
 		int Run(sw::Window& window)
 		{
+			PseudoRandom::ResetSeed();
+
 			Log::Init();
 
 			Simulation* simulation = new BasicSimulation(7, &Tilemap::FlowerPattern);
@@ -43,8 +45,6 @@ class Main : public Screen
 			float period = 1.f;
 
 			simulation->Reset();
-
-			PseudoRandom::ResetSeed(); // The seed reset is here
 
 			while (window.IsOpen())
 			{

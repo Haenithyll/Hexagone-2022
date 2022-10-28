@@ -17,8 +17,9 @@ enum Party { None, LesRebelles, EnRoute, P3, Reprise };
 class Character : public sf::Drawable, public Animable
 {
 public:
-	Character(Party party, Party allyParty, int maxEnergy) : Animable(16, 0)
+	Character(const std::string& name, Party party, Party allyParty, int maxEnergy) : Animable(16, 0)
 	{
+		_name = name;
 		_party = party;
 		_allyParty = allyParty;
 		_maxEnergyPoints = maxEnergy;
@@ -54,6 +55,7 @@ protected:
 	sf::Vector3i _lastDirection{ sf::Vector3i() };
 	int _energyPoints;
 	int _maxEnergyPoints;
+	std::string _name;
 
 private:
 	bool mIdle;

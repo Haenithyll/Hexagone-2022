@@ -2,7 +2,7 @@
 
 
 void PseudoRandom::ResetSeed() {
-	std::srand((unsigned int) std::time(0));
+	std::srand(std::time(NULL));
 	return;
 }
 

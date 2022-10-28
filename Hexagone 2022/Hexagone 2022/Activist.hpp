@@ -5,9 +5,9 @@
 class Activist : public Character
 {
 public:
-	Activist(Party party, Party allyParty, int maxEnergy,
+	Activist(const std::string& name,  Party party, Party allyParty, int maxEnergy,
 		int nMinMove, int nMaxMove)
-		:Character(party, allyParty, maxEnergy)
+		:Character(name, party, allyParty, maxEnergy)
 	{
 		_nMinMove = nMinMove;
 		_nMaxMove = nMaxMove;

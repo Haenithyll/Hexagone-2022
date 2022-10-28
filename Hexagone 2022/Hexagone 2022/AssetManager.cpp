@@ -1,5 +1,7 @@
 #include "AssetManager.hpp"
 
+#include <fstream>
+
 AssetManager* AssetManager::mInstance = nullptr;
 
 AssetManager::AssetManager()
@@ -48,4 +50,26 @@ const sf::Texture& AssetManager::GetTexture(const std::string& name)
 const sf::Font& AssetManager::GetFont(const std::string& name)
 {
 	return mInstance->mFonts[name];
+}
+
+bool AssetManager::LoadTextFromFile(const std::string& name, const std::string& path)
+{
+	std::ifstream file(path);
+
+	if (!file.is_open())
+		return false;
+
+	std::string line;
+
+	mInstance->mTexts[name] = std::vector<std::string>();
+
+	while (std::getline(file, line))
+		mInstance->mTexts[name].push_back(line);
+
+	return true;
+}
+
+const std::vector<std::string>& AssetManager::GetText(const std::string& name)
+{
+	return mInstance->mTexts[name];
 }

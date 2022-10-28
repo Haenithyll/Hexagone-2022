@@ -60,11 +60,11 @@ void Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	dot.setOrigin(0.f, dotRadius / 2.f);
 	dot.setFillColor(sf::Color::Red);
 
-	sf::Text name("Jésus Christ", AssetManager::GetFont("Default"), 12u);
+	sf::Text name(_name, AssetManager::GetFont("Default"), 12u);
 	name.setOrigin(0.f, name.getGlobalBounds().height / 2.f);
 	name.setFillColor(sf::Color::White);
 	name.setOutlineThickness(0.5f);
-	name.setOutlineColor(sf::Color::White);
+	name.setOutlineColor(sf::Color::Black);
 
 	float dotSpace = dotRadius  * 2.f + dotGap;
 	float width = dotSpace + name.getGlobalBounds().width;
