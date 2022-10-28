@@ -226,5 +226,8 @@
     <Image Include="sprites\character.png">
       <Filter>Fichiers de ressources\Sprites</Filter>
     </Image>
+    <Image Include="sprites\obstacle.png">
+      <Filter>Fichiers de ressources\Sprites</Filter>
+    </Image>
   </ItemGroup>
 </Project>

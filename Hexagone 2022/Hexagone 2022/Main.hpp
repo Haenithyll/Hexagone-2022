@@ -44,7 +44,6 @@ class Main : public Screen
 
 			simulation->Reset();
 
-
 			PseudoRandom::ResetSeed(); // The seed reset is here
 
 			while (window.IsOpen())

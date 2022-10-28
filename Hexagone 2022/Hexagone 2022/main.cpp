@@ -11,6 +11,7 @@ int main()
 	AssetManager::Init();
 
 	AssetManager::LoadTextureFromFile("Character", "./sprites/character.png");
+	AssetManager::LoadTextureFromFile("Obstacle", "./sprites/obstacle.png");
 	AssetManager::LoadFontFromFile("Default", "./Roboto-Thin.ttf");
 
 	window.Create(false, 8u);

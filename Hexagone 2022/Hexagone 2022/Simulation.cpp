@@ -1,6 +1,7 @@
 #include "Simulation.hpp"
 
 #include "Tilemap.hpp"
+
 #include <random>
 #include <algorithm>
 
@@ -197,6 +198,16 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			vertex.color = sf::Color::Black;
 
 		target.draw(line, 7, sf::LinesStrip, states);
+
+		if (tile->Obstacle())
+		{
+			sf::Sprite obstacle(AssetManager::GetTexture("Obstacle"), sf::IntRect(0, 0, 150, 150));
+
+			obstacle.setOrigin(75.f, 75.f);
+			obstacle.setPosition(center);
+
+			target.draw(obstacle);
+		}
 	}
 
 	for (const auto& [position, character] : mAllCharacters)
