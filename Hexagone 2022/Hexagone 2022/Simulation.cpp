@@ -84,6 +84,7 @@ void Simulation::Step()
 		{
 			mAllCharacters.erase(std::array{ nextPosition.x, nextPosition.y, nextPosition.z });
 			mAllCharacters[std::array{ nextPosition.x, nextPosition.y, nextPosition.z }] = currentCharacter;
+			currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, 1.f);
 			mCharacterPositions[mIndex] = nextPosition;
 			if (nextTile->GetParty() == currentCharacter->GetParty())
 			{
