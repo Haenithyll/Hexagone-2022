@@ -1,7 +1,7 @@
 #include "Simulation.hpp"
-
+#include "PseudoRandom.hpp"
 #include "Tilemap.hpp"
-
+#include "Log.hpp"
 #include <random>
 #include <algorithm>
 
@@ -39,12 +39,11 @@ void Simulation::Step()
 	{
 		for (int i = 0; i < moveRange; ++i)
 		{
-			sf::Vector3i move = sf::Vector3i(1, 1, 1); // PseudoRandom::GetDirection();
+			sf::Vector3i move = PseudoRandom::GetDirection();
 			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == currentCharacter->GetLastDirection())
 			{
-				move = sf::Vector3i(1, 0, 1); // PseudoRandom::GetDirection();
+				move = PseudoRandom::GetDirection();
 			}
-
 			pathToTravel.push_back(currentCharacterPosition + move);
 			currentCharacter->SetLastDirection(move);
 		}
@@ -60,8 +59,10 @@ void Simulation::Step()
 					currentCharacterPosition.y,
 					currentCharacterPosition.z}
 			);
+			mCharacterPositions.erase(mCharacterPositions.begin() + mIndex);
 			mIndex = (mIndex - 1) % mCharacterPositions.size();
 			Tilemap::GetTile(currentCharacterPosition)->SetObstacle();
+			break;
 		}
 		Tile* nextTile = Tilemap::GetTile(nextPosition);
 		if (nextTile->Obstacle() || nextTile->GetParty() != currentCharacter->GetParty())
@@ -81,6 +82,9 @@ void Simulation::Step()
 		}
 		else
 		{
+			mAllCharacters.erase(std::array{ nextPosition.x, nextPosition.y, nextPosition.z });
+			mAllCharacters[std::array{ nextPosition.x, nextPosition.y, nextPosition.z }] = currentCharacter;
+			mCharacterPositions[mIndex] = nextPosition;
 			if (nextTile->GetParty() == currentCharacter->GetParty())
 			{
 				currentCharacter->MeetMaster();
@@ -90,13 +94,15 @@ void Simulation::Step()
 	mIndex = (mIndex + 1) % mCharacterPositions.size();
 
 	if (mIndex == 0)
+	{
 		++mTurn;
+		std::random_device rd;
+		std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
+	}
 }
 
 void Simulation::EndTurn()
 {
-	std::random_device rd;
-	std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
 	do
 	{
 		Step();

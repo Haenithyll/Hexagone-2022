@@ -1,5 +1,6 @@
 #include "Activist.hpp"
 #include "Master.hpp"
+#include "PseudoRandom.hpp"
 
 Action Activist::DecideAction()
 {
@@ -10,7 +11,7 @@ Action Activist::DecideAction()
 
 int Activist::DecideMoveRange()
 {
-	return _nMinMove; //PseudoRandom::GetInt(_nMinMove, _nMaxMove);
+	return PseudoRandom::GetInt(_nMinMove, _nMaxMove);
 }
 
 void Activist::Meet(Character* character)
@@ -35,13 +36,13 @@ void Activist::MeetMaster()
 
 void Activist::Fight(Character* character)
 {
-	bool b = true; //(PseudoRandom.GetInt(0, 1) == 0)
+	bool b = PseudoRandom::GetInt(0, 1) == 0;
 	Character* winner = b ? this : character;
 	Character* loser = b ? character : this;
 
-	int amountToTake = 1;//PseudoRandom::GetInt(1, std::min(3, (int)loser->GetMessages()->size()));
-	const std::vector<const std::string*>* loserMessages = loser->GetMessages();
-	const std::vector<const std::string*>* winnerMessages = winner->GetMessages();
+	int amountToTake = PseudoRandom::GetInt(0, std::min(3, (int)loser->GetMessages()->size()));
+	const Messages* loserMessages = loser->GetMessages();
+	const Messages* winnerMessages = winner->GetMessages();
 	
 	for (int i = 0; i < loserMessages->size(); ++i)
 	{
@@ -65,7 +66,7 @@ void Activist::ShareMessages(Character* character)
 
 void Activist::MessagesUnion(Character* character)
 {
-	const std::vector<const std::string*>* otherMessages = character->GetMessages();
+	const Messages* otherMessages = character->GetMessages();
 	for (const std::string* message : *otherMessages)
 	{
 		if (std::find(_messages.begin(), _messages.end(), message) == _messages.end())//message not in _messages

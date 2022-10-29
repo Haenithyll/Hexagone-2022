@@ -1,7 +1,7 @@
 #include "Character.hpp"
 #include "AssetManager.hpp"
 
-void Character::ReceiveMessages(const std::vector<const std::string*>* newMessages, int amountToTake)
+void Character::ReceiveMessages(const Messages* newMessages, int amountToTake)
 {
 	for (const std::string* message : *newMessages)
 	{

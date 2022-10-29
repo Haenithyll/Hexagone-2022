@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 
+typedef std::vector<const std::string*> Messages;
 enum Action { RandomMove, BackToHome };
 enum Party { None, LesRebelles, EnRoute, P3, Reprise };
 class Character : public sf::Drawable, public Animable
@@ -27,11 +28,11 @@ public:
 		_energyPoints = _maxEnergyPoints;
 	}
 	const Party GetParty() const {	return _party;	}
-	const std::vector<const std::string*>* GetMessages() const {	return &_messages;	}
-	void SetMessages(const std::vector<const std::string*> newMessages) {	
+	const Messages* GetMessages() const {	return &_messages;	}
+	void SetMessages(const Messages newMessages) {	
 		_messages = newMessages;
 	}
-	void ReceiveMessages(const std::vector<const std::string*>* newMessages, int amountToTake);
+	void ReceiveMessages(const Messages* newMessages, int amountToTake);
 	void AddMessage(const std::string* message);
 	void DeleteMessage(int index);
 	virtual Action DecideAction() = 0;
@@ -49,7 +50,7 @@ public:
 	void SetDrawState(bool idle);
 
 protected:
-	std::vector<const std::string*> _messages;
+	Messages _messages;
 	Party _party;
 	Party _allyParty;
 	sf::Vector3i _lastDirection{ sf::Vector3i() };
