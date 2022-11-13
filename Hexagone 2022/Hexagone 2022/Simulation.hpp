@@ -6,6 +6,7 @@
 #include "Character.hpp"
 #include "Tilemap.hpp"
 #include  "Log.hpp"
+#include "Astar.hpp"
 
 #include "Drawable.hpp"
 #include "AssetManager.hpp"

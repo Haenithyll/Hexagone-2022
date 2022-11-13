@@ -33,7 +33,10 @@ void Simulation::Step()
 	std::vector<sf::Vector3i> pathToTravel;
 	if (action == Action::BackToHome)
 	{
-		//pathToTravel = Tilemap::GetSafeZonePath(_position, currentCharacter->GetParty());
+		sf::Vector3i home = Tilemap::GetSafeZoneCenter(currentCharacter->GetParty());
+
+		pathToTravel = Astar::FindPath(currentCharacterPosition, home, currentCharacter->GetParty());
+		currentCharacter->SetLastDirection(home);
 	}
 	else if (action == Action::RandomMove)
 	{

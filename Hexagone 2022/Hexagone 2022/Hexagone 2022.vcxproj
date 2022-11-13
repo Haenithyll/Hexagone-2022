@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="Activist.cpp" />
     <ClCompile Include="Animable.cpp" />
+    <ClCompile Include="Astart.cpp" />
     <ClCompile Include="BasicSimulation.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="Activist.hpp" />
     <ClInclude Include="Animable.hpp" />
+    <ClInclude Include="Astar.hpp" />
     <ClInclude Include="BasicSimulation.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Character.hpp" />

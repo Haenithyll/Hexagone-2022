@@ -142,6 +142,11 @@ void Tilemap::GenerateObstacles(int nbObst) {
 	return;
 }
 
+std::array<int, 3> Tilemap::Vector3ToArray(const sf::Vector3i& position)
+{
+	return std::array<int, 3> {position.x, position.y, position.z};
+}
+
 patternCenters Tilemap::FlowerPattern() {
 	int radius{ _instance_->_radius_ };
 	return patternCenters{

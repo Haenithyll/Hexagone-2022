@@ -19,7 +19,9 @@ public:
 	static sf::Vector2f CoordToPosition(sf::Vector3i);
 	static sf::Vector2f CoordToPosition(std::array<int, 3>);
 	static sf::Vector3i GetSafeZoneCenter(Party);
-	
+
+	static std::array<int, 3> Vector3ToArray(const sf::Vector3i& position);
+
 	patternCenters FlowerPattern();
 
 private:

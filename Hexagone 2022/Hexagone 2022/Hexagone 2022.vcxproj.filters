@@ -126,6 +126,9 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>Fichiers sources\SFML</Filter>
     </ClCompile>
+    <ClCompile Include="Astart.cpp">
+      <Filter>Fichiers sources\Tilemap Generation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.hpp">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="AssetManager.hpp">
       <Filter>Fichiers d%27en-tête\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Astar.hpp">
+      <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

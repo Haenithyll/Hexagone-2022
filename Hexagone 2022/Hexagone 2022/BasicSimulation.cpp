@@ -22,9 +22,9 @@ void BasicSimulation::Reset()
 	{
 		std::string name = names[PseudoRandom::GetInt(0, names.size() - 1)];
 
-		Character* character = new Activist(name, (Party)i, Party::P3, 10, 2, 5);
+		Character* character = new Activist(name, (Party)i, Party::P3, 10000, 2, 5);
 
-		sf::Vector3i position = sf::Vector3i(0, i, -i);
+		sf::Vector3i position = sf::Vector3i(1, -1, 0);
 
 		mCharacterPositions.push_back(position);
 		mAllCharacters[std::array<int, 3> { position.x, position.y, position.z }] = character;
