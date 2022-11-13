@@ -19,11 +19,11 @@ void BasicSimulation::Reset()
 	sf::Vector3i position = PseudoRandom::GetPosition(Tilemap::Radius());
 	std::vector<std::string> names = AssetManager::GetText("Names");
 
-	for (int i = 0; i < 2; ++i)
+	for (int i = 1; i < 2; ++i)
 	{
 		std::string name = names[PseudoRandom::GetInt(0, names.size() - 1)];
 
-		Character* character = new Activist(name, (Party)i + 1, Party::P3, 10, 2, 5);
+		Character* character = new Activist(name, (Party)i, Party::P3, 10, 2, 5);
 
 		sf::Vector3i position = sf::Vector3i(1, -1, 0);
 

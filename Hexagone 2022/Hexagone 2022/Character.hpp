@@ -28,6 +28,7 @@ public:
 		_energyPoints = _maxEnergyPoints;
 	}
 	const Party GetParty() const {	return _party;	}
+	const std::string& GetName() const { return _name; }
 	const Messages* GetMessages() const {	return &_messages;	}
 	void SetMessages(const Messages newMessages) {	
 		_messages = newMessages;

@@ -66,13 +66,23 @@ void Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	name.setOutlineThickness(0.5f);
 	name.setOutlineColor(sf::Color::Black);
 
+	sf::Text energy(std::to_string(_energyPoints) + " / " + std::to_string(_maxEnergyPoints), AssetManager::GetFont("Default"), 12u);
+	energy.setOrigin(energy.getGlobalBounds().width / 2.f, energy.getGlobalBounds().height / 2.f);
+	energy.setFillColor(sf::Color::White);
+	energy.setOutlineThickness(0.5f);
+	energy.setOutlineColor(sf::Color::Black);
+
 	float dotSpace = dotRadius  * 2.f + dotGap;
 	float width = dotSpace + name.getGlobalBounds().width;
 
 	dot.setPosition(center.x - width / 2.f, center.y - 50.f);
 	name.setPosition(center.x - width / 2.f + dotSpace, center.y - 50.f);
 
+	energy.setPosition(center.x, center.y - 50.f + 15.f);
+
 	target.draw(sprite, states);
 	target.draw(dot, states);
 	target.draw(name, states);
+
+	target.draw(energy, states);
 }

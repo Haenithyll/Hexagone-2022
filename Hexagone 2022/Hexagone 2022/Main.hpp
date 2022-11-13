@@ -126,7 +126,7 @@ class Main : public Screen
 				{
 					isPlaying = false;
 
-					simulation->Step();
+					simulation->Step(1.f);
 				}
 
 				ImGui::SameLine();
@@ -156,7 +156,7 @@ class Main : public Screen
 
 				if (isPlaying && timer.getElapsedTime().asSeconds() >= period)
 				{
-					simulation->Step();
+					simulation->Step(period);
 
 					timer.restart();
 				}

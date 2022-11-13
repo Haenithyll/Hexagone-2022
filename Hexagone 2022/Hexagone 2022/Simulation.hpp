@@ -19,7 +19,7 @@ class Simulation : public sf::Drawable, public Animable
 
 		virtual void Reset();
 
-		void Step();
+		void Step(float duration);
 		void EndTurn();
 
 		virtual void Update(float deltaTime);
