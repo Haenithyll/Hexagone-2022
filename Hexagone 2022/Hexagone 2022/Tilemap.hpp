@@ -18,7 +18,8 @@ public:
 	static std::vector<sf::Vector3i> UnitVectors();
 	static sf::Vector2f CoordToPosition(sf::Vector3i);
 	static sf::Vector2f CoordToPosition(std::array<int, 3>);
-
+	static sf::Vector3i GetSafeZoneCenter(Party);
+	
 	patternCenters FlowerPattern();
 
 private:
@@ -31,7 +32,7 @@ private:
 		sf::Vector3i{ 1,-1,0 }
 	};
 	std::map<std::array<int, 3>, Tile*> _tiles_;
-	std::map<Party, std::vector<Tile*>> _safeZoneTiles_;
+	std::map<Party, Tile*> _safeZoneTiles_;
 
 	static void GenerateTiles();
 	static void InitSurroundingTiles();

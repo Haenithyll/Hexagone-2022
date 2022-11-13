@@ -100,15 +100,32 @@ sf::Vector2f Tilemap::CoordToPosition(std::array<int, 3> coordinates)
 }
 
 void Tilemap::GenerateSafeZones(patternCenters(Tilemap::* pattern)()) {
+	Party parties[]{
+		LesRebelles,
+		EnRoute,
+		P3,
+		Reprise
+	};
+	int partyIndex{ 0 };
 	for (int i{ -1 }; i <= 1; i += 2)
 		for (sf::Vector3i center : (_instance_->*pattern)()) {
+			Party currentParty = parties[partyIndex];
 			Tile* SZTile = _instance_->_tiles_[std::array<int, 3>{i* center.x, i* center.y, i* center.z}];
 			if (SZTile == nullptr)
 				throw std::invalid_argument("Failed attempt to setup safezone tiles : out of map");
-			SZTile->SetParty(Reprise);
-			for (Tile* tile : SZTile->SurroundingTiles())
-				tile->SetParty(Reprise);
+			SZTile->SetParty(currentParty);
+			_instance_->_safeZoneTiles_.insert(std::pair<Party, Tile*>
+			{
+				currentParty, SZTile
+			});
+			for (Tile* tile : SZTile->SurroundingTiles()) 
+				tile->SetParty(currentParty);
+			++partyIndex;
 		}
+}
+
+sf::Vector3i Tilemap::GetSafeZoneCenter(Party party) {
+	return _instance_->_safeZoneTiles_[party]->Coordinates();
 }
 
 void Tilemap::GenerateObstacles(int nbObst) {
@@ -127,7 +144,7 @@ void Tilemap::GenerateObstacles(int nbObst) {
 
 patternCenters Tilemap::FlowerPattern() {
 	int radius{ _instance_->_radius_ };
-	return patternCenters {
+	return patternCenters{
 		sf::Vector3i{ radius - 2, 3 - radius, -1 },
 			sf::Vector3i{ radius / 2 - 1, radius - 1 + -radius / 2, -radius + 2 }
 	};
