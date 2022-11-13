@@ -22,6 +22,8 @@ public:
 
 	static std::array<int, 3> Vector3ToArray(const sf::Vector3i& position);
 
+	static bool OutofMap(sf::Vector3i);
+
 	patternCenters FlowerPattern();
 
 private:
