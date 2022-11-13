@@ -40,7 +40,7 @@ void Simulation::Step()
 		for (int i = 0; i < moveRange; ++i)
 		{
 			sf::Vector3i move = PseudoRandom::GetDirection();
-			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == currentCharacter->GetLastDirection())
+			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == -currentCharacter->GetLastDirection())
 			{
 				move = PseudoRandom::GetDirection();
 			}
@@ -49,8 +49,9 @@ void Simulation::Step()
 		}
 	}
 
-	for (sf::Vector3i nextPosition : pathToTravel)
+	for (int i = 0; i < pathToTravel.size(); ++i)
 	{
+		sf::Vector3i nextPosition = pathToTravel[i];
 		if (currentCharacter->LoseEnergy())//if Character has no energy
 		{
 			//_isDead = true;
@@ -65,11 +66,13 @@ void Simulation::Step()
 			break;
 		}
 		Tile* nextTile = Tilemap::GetTile(nextPosition);
-		if (nextTile->Obstacle() || nextTile->GetParty() != currentCharacter->GetParty())
+		if (nextTile->Obstacle() || (nextTile->GetParty() != currentCharacter->GetParty() && nextTile->GetParty() != None))
+		{
+			for (int j = i + 1; j < pathToTravel.size(); ++j)
+				currentCharacter->LoseEnergy();
 			break;
+		}
 
-		//we didn't encounter an obstacle so lastDirection is reset
-		currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
 
 		std::map<std::array<int, 3>, Character*>::iterator nextCharacterIt = mAllCharacters.find(std::array<int, 3> {
 			nextPosition.x,
@@ -79,13 +82,19 @@ void Simulation::Step()
 		if (nextCharacterIt != mAllCharacters.end())
 		{
 			currentCharacter->Meet(nextCharacterIt->second);
+			for (int j = i + 1; j < pathToTravel.size(); ++j)
+				currentCharacter->LoseEnergy();
+			break;
 		}
 		else
 		{
-			mAllCharacters.erase(std::array{ nextPosition.x, nextPosition.y, nextPosition.z });
+			//we didn't encounter an obstacle so lastDirection is reset
+			currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
+
+			mAllCharacters.erase(std::array{ currentCharacterPosition.x, currentCharacterPosition.y, currentCharacterPosition.z });
 			mAllCharacters[std::array{ nextPosition.x, nextPosition.y, nextPosition.z }] = currentCharacter;
-			currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, 1.f);
 			mCharacterPositions[mIndex] = nextPosition;
+			currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, 1.f);
 			if (nextTile->GetParty() == currentCharacter->GetParty())
 			{
 				currentCharacter->MeetMaster();
