@@ -20,7 +20,7 @@ void Simulation::Reset()
 	mIndex = 0;
 }
 
-void Simulation::Step()
+void Simulation::Step(float duration)
 {
 	sf::Vector3i currentCharacterPosition = mCharacterPositions[mIndex];
 	Character* currentCharacter = mAllCharacters[std::array<int, 3>{
@@ -30,30 +30,45 @@ void Simulation::Step()
 	}];
 	int moveRange = currentCharacter->DecideMoveRange();
 	Action action = currentCharacter->DecideAction();
+	Log::Print(currentCharacter->GetName());
 	std::vector<sf::Vector3i> pathToTravel;
 	if (action == Action::BackToHome)
 	{
 		sf::Vector3i home = Tilemap::GetSafeZoneCenter(currentCharacter->GetParty());
 
 		pathToTravel = Astar::FindPath(currentCharacterPosition, home, currentCharacter->GetParty());
+
+		if (pathToTravel.size() > 0)
+			pathToTravel.erase(pathToTravel.begin());
+
 		currentCharacter->SetLastDirection(home);
+
+		Log::Print("Retourne à la safe zone : " + std::to_string(pathToTravel.size()) + " pas");
 	}
 	else if (action == Action::RandomMove)
 	{
 		for (int i = 0; i < moveRange; ++i)
 		{
 			sf::Vector3i move = PseudoRandom::GetDirection();
-			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == currentCharacter->GetLastDirection())
+			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == -currentCharacter->GetLastDirection())
 			{
 				move = PseudoRandom::GetDirection();
 			}
 			pathToTravel.push_back(currentCharacterPosition + move);
 			currentCharacter->SetLastDirection(move);
 		}
+
+		Log::Print("Bouge aleatoirement : " + std::to_string(pathToTravel.size()) + " pas");
 	}
 
-	for (sf::Vector3i nextPosition : pathToTravel)
+	Log::Print(currentCharacterPosition);
+
+	for (int i = 0; i < pathToTravel.size(); ++i)
 	{
+		sf::Vector3i nextPosition = pathToTravel[i];
+		
+		Log::Print(nextPosition);
+
 		if (currentCharacter->LoseEnergy())//if Character has no energy
 		{
 			//_isDead = true;
@@ -68,11 +83,12 @@ void Simulation::Step()
 			break;
 		}
 		Tile* nextTile = Tilemap::GetTile(nextPosition);
-		if (nextTile->Obstacle() || nextTile->GetParty() != currentCharacter->GetParty())
+		if (nextTile->Obstacle() || (nextTile->GetParty() != currentCharacter->GetParty() && nextTile->GetParty() != None))
+		{
+			for (int j = i + 1; j < pathToTravel.size(); ++j)
+				currentCharacter->LoseEnergy();
 			break;
-
-		//we didn't encounter an obstacle so lastDirection is reset
-		currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
+		}
 
 		std::map<std::array<int, 3>, Character*>::iterator nextCharacterIt = mAllCharacters.find(std::array<int, 3> {
 			nextPosition.x,
@@ -82,13 +98,23 @@ void Simulation::Step()
 		if (nextCharacterIt != mAllCharacters.end())
 		{
 			currentCharacter->Meet(nextCharacterIt->second);
+			for (int j = i + 1; j < pathToTravel.size(); ++j)
+				currentCharacter->LoseEnergy();
+			break;
 		}
 		else
 		{
-			mAllCharacters.erase(std::array{ nextPosition.x, nextPosition.y, nextPosition.z });
+			//we didn't encounter an obstacle so lastDirection is reset
+			currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
+
+			mAllCharacters.erase(std::array{ currentCharacterPosition.x, currentCharacterPosition.y, currentCharacterPosition.z });
+
 			mAllCharacters[std::array{ nextPosition.x, nextPosition.y, nextPosition.z }] = currentCharacter;
-			currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, 1.f);
 			mCharacterPositions[mIndex] = nextPosition;
+
+			currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, duration / moveRange);
+			currentCharacterPosition = nextPosition;
+
 			if (nextTile->GetParty() == currentCharacter->GetParty())
 			{
 				currentCharacter->MeetMaster();
@@ -109,7 +135,7 @@ void Simulation::EndTurn()
 {
 	do
 	{
-		Step();
+		Step(0.f);
 	} while (mIndex > 0);
 }
 
@@ -153,6 +179,21 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Vertex line[7];
 	sf::Vector2f center;
 
+	sf::Text x("", AssetManager::GetFont("Default"), 12u);
+	x.setFillColor(sf::Color::White);
+	x.setOutlineThickness(0.5f);
+	x.setOutlineColor(sf::Color::Black);
+
+	sf::Text y("", AssetManager::GetFont("Default"), 12u);
+	y.setFillColor(sf::Color::White);
+	y.setOutlineThickness(0.5f);
+	y.setOutlineColor(sf::Color::Black);
+
+	sf::Text z("", AssetManager::GetFont("Default"), 12u);
+	z.setFillColor(sf::Color::White);
+	z.setOutlineThickness(0.5f);
+	z.setOutlineColor(sf::Color::Black);
+
 	for (const auto& [_, tile] : Tilemap::Tiles())
 	{
 		center = tile->Position();
@@ -165,6 +206,18 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		line[3] = sf::Vector2f(center.x - radius, center.y);
 		line[4] = sf::Vector2f(center.x - cos * radius, center.y + sin * radius);
 		line[5] = sf::Vector2f(center.x + cos * radius, center.y + sin * radius);
+
+		x.setString(std::to_string(tile->Coordinates().x));
+		x.setOrigin(x.getGlobalBounds().width / 2.f, x.getGlobalBounds().height / 2.f);
+		x.setPosition(center.x - cos * radius, center.y - sin * radius / 2.5f);
+
+		y.setString(std::to_string(tile->Coordinates().y));
+		y.setOrigin(y.getGlobalBounds().width / 2.f, y.getGlobalBounds().height / 2.f);
+		y.setPosition(center.x + cos * radius, center.y - sin * radius / 2.5f);
+
+		z.setString(std::to_string(tile->Coordinates().z));
+		z.setOrigin(z.getGlobalBounds().width / 2.f, z.getGlobalBounds().height / 2.f);
+		z.setPosition(center.x, center.y + radius / 2.f);
 
 		line[6] = line[0];
 
@@ -218,6 +271,10 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 			target.draw(obstacle);
 		}
+
+		target.draw(x, states);
+		target.draw(y, states);
+		target.draw(z, states);
 	}
 
 	for (const auto& [position, character] : mAllCharacters)

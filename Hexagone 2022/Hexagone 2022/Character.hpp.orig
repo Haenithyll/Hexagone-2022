@@ -28,9 +28,14 @@ public:
 		_energyPoints = _maxEnergyPoints;
 	}
 	const Party GetParty() const {	return _party;	}
+<<<<<<< HEAD
 	const virtual Messages* GetMessages() const {	return &_messages;	}
+	virtual void SetMessages(const Messages newMessages) {	
+=======
 	const std::string& GetName() const { return _name; }
-	virtual void SetMessages(const Messages newMessages) {
+	const Messages* GetMessages() const {	return &_messages;	}
+	void SetMessages(const Messages newMessages) {	
+>>>>>>> 8916664560216c4d306da6ed4fd23154342d6f4b
 		_messages = newMessages;
 	}
 	void ReceiveMessages(const Messages* newMessages, int amountToTake);
