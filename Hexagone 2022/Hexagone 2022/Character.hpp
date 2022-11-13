@@ -14,7 +14,7 @@
 
 typedef std::vector<const std::string*> Messages;
 enum Action { RandomMove, BackToHome };
-enum Party { None, LesRebelles, EnRoute, P3, Reprise };
+enum Party { None, LesRebelles, EnRoute, AgglutinationPatriote, Reprise };
 class Character : public sf::Drawable, public Animable
 {
 public:
@@ -28,8 +28,8 @@ public:
 		_energyPoints = _maxEnergyPoints;
 	}
 	const Party GetParty() const {	return _party;	}
-	const Messages* GetMessages() const {	return &_messages;	}
-	void SetMessages(const Messages newMessages) {	
+	const virtual Messages* GetMessages() const {	return &_messages;	}
+	virtual void SetMessages(const Messages newMessages) {	
 		_messages = newMessages;
 	}
 	void ReceiveMessages(const Messages* newMessages, int amountToTake);

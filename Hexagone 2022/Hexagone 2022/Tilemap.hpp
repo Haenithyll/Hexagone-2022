@@ -27,9 +27,11 @@ public:
 	patternCenters FlowerPattern();
 
 private:
+	Tilemap() {};
+
 	static Tilemap* _instance_;
 
-	int _radius_;
+	int _radius_{0};
 	std::vector<sf::Vector3i> _unitVectors_{
 		sf::Vector3i{ 0,1,-1 },
 		sf::Vector3i{ 1,0,-1 },
