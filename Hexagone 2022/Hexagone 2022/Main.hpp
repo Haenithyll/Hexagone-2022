@@ -94,27 +94,6 @@ class Main : public Screen
 
 				if (ImGui::Button("Reset"))
 				{
-
-					const int nbParti = 4;
-					int order[4] = { 0 };
-
-					PseudoRandom::GetOrder(nbParti, order);
-					std::string orderString;
-					for (short i = 0; i < nbParti; i++) {
-						orderString += std::to_string(order[i]);
-					}
-					Log::Print("RandomOrd : " + orderString);
-
-					Log::Print("RandomTyp : " + std::to_string(PseudoRandom::GetObstacleType(4)));
-
-					Log::Print("RandomInt : " + std::to_string(PseudoRandom::GetInt(-Tilemap::Radius(), Tilemap::Radius())));
-
-					sf::Vector3i position = PseudoRandom::GetPosition(Tilemap::Radius()); // Change the radius here
-					Log::Print("RandomPos : " + std::to_string(position.x) + " " + std::to_string(position.y) + " " + std::to_string(position.z));
-
-					sf::Vector3i direction = PseudoRandom::GetDirection();
-					Log::Print("RandomDir : " + std::to_string(direction.x) + " " + std::to_string(direction.y) + " " + std::to_string(direction.z));
-
 					isPlaying = false;
 
 					simulation->Reset();
@@ -126,7 +105,7 @@ class Main : public Screen
 				{
 					isPlaying = false;
 
-					simulation->Step(1.f);
+					simulation->Step(period);
 				}
 
 				ImGui::SameLine();

@@ -1,9 +1,27 @@
 #include "Animable.hpp"
 #include "Log.hpp"
+
+Animable::Movement::Movement(sf::Vector2f start, sf::Vector2f end, float delay)
+{
+	Position = end;
+
+	Direction = end - start;
+
+	Distance = sqrtf(powf(Direction.x, 2.f) + powf(Direction.y, 2.f));
+
+	Direction /= Distance;
+
+	Duration = delay;
+
+	Rotation = -atan2f(-Direction.y, Direction.x) * RAD_TO_DEG + 90.f;
+}
+
 Animable::Animable(int count, int offset)
 {
 	mCount = count;
 	mIndex = offset % count;
+
+	mMovements = std::queue<Movement>();
 }
 
 void Animable::Update(float deltaTime)
@@ -17,7 +35,7 @@ void Animable::Update(float deltaTime)
 		mTime = fmod(mTime, ANIMATION_FRAME_DELAY);
 	}
 
-	if (mRemainingDistance > 0.f)
+	if (mRemainingDistance > 0)
 	{
 		float distance = mBaseDistance * deltaTime / mMoveDelay;
 
@@ -25,31 +43,37 @@ void Animable::Update(float deltaTime)
 
 		mRemainingDistance -= distance;
 	}
+	else if (!mMovements.empty())
+	{
+		Movement movement = mMovements.front();
+
+		mMoveDirection = movement.Direction;
+		mBaseDistance = movement.Distance;
+		mMoveDelay = movement.Duration;
+		mMoveRotation = movement.Rotation;
+
+		if (mMoveDelay <= 0.f)
+		{
+			mCurrentPosition = movement.Position;
+
+			mRemainingDistance = 0.f;
+
+			mCurrentRotation = mMoveRotation;
+		}
+		else
+			mRemainingDistance = mBaseDistance;
+
+		mMovements.pop();
+	}
 
 	mCurrentRotation = std::lerp(mCurrentRotation, mMoveRotation, deltaTime * 10.f);
 }
 
 void Animable::MoveTo(sf::Vector2f position, float delay)
 {
-	sf::Vector2f move = position - mCurrentPosition;
-	
-	mBaseDistance = ComputeLength(move);
-	mMoveDelay = delay;
+	sf::Vector2f start = mMovements.empty() ? mCurrentPosition : mMovements.back().Position;
 
-	mMoveDirection = move / mBaseDistance;
-
-	mMoveRotation = -atan2f(-mMoveDirection.y, mMoveDirection.x) * RAD_TO_DEG + 90.f;
-
-	if (delay <= 0.f)
-	{
-		mCurrentPosition = position;
-
-		mRemainingDistance = 0.f;
-
-		mCurrentRotation = mMoveRotation;
-	}
-	else
-		mRemainingDistance = mBaseDistance;
+	mMovements.push(Movement(start, position, delay));
 }
 
 const sf::Vector2f& Animable::GetDrawPosition() const
@@ -65,14 +89,4 @@ float Animable::GetDrawRotation() const
 bool Animable::IsMoving() const
 {
 	return mRemainingDistance > 0.f;
-}
-
-float Animable::ComputeLength(const sf::Vector2f& vector)
-{
-	return sqrtf(powf(vector.x, 2.f) + powf(vector.y, 2.f));
-}
-
-float Animable::ComputeDistance(const sf::Vector2f& a, const sf::Vector2f& b)
-{
-	return ComputeLength(b - a);
 }
