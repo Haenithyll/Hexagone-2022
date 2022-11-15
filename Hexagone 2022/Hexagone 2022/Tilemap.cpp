@@ -103,7 +103,7 @@ void Tilemap::GenerateSafeZones(patternCenters(Tilemap::* pattern)()) {
 	Party parties[]{
 		LesRebelles,
 		EnRoute,
-		P3,
+		AgglutinationPatriote,
 		Reprise
 	};
 	int partyIndex{ 0 };

@@ -150,7 +150,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Master.cpp" />
     <ClCompile Include="PseudoRandom.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Simulation.cpp" />
@@ -166,6 +165,7 @@
     <ClInclude Include="Animable.hpp" />
     <ClInclude Include="Astar.hpp" />
     <ClInclude Include="BasicSimulation.hpp" />
+    <ClInclude Include="BenjaminVouallion.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="Drawable.hpp" />
@@ -179,9 +179,12 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="JeanneOskour.hpp" />
+    <ClInclude Include="JosephRepublique.hpp" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Master.hpp" />
     <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="MerlinPimpain.hpp" />
     <ClInclude Include="PseudoRandom.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Screen.hpp" />

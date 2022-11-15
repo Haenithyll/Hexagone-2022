@@ -105,9 +105,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>Fichiers sources\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Master.cpp">
-      <Filter>Fichiers sources\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Simulation.cpp">
       <Filter>Fichiers sources\Game</Filter>
     </ClCompile>
@@ -223,6 +220,18 @@
     </ClInclude>
     <ClInclude Include="Astar.hpp">
       <Filter>Fichiers d%27en-tête\Tilemap Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="BenjaminVouallion.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="JeanneOskour.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="JosephRepublique.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MerlinPimpain.hpp">
+      <Filter>Fichiers d%27en-tête\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

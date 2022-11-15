@@ -235,7 +235,7 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 				break;
 
-			case P3:
+			case AgglutinationPatriote:
 				vertex.color = sf::Color::Cyan;
 
 				break;
