@@ -51,14 +51,17 @@ void Simulation::Step(float duration)
 	}
 	else if (action == Action::RandomMove)
 	{
+		sf::Vector3i last = currentCharacterPosition;
+
 		for (int i = 0; i < moveRange; ++i)
 		{
 			sf::Vector3i move = PseudoRandom::GetDirection();
-			while (Tilemap::GetTile(currentCharacterPosition + move) == nullptr || move == -currentCharacter->GetLastDirection())
+			while (Tilemap::GetTile(last + move) == nullptr || move == -currentCharacter->GetLastDirection())
 			{
 				move = PseudoRandom::GetDirection();
 			}
-			pathToTravel.push_back(currentCharacterPosition + move);
+			last = last + move;
+			pathToTravel.push_back(last);
 			currentCharacter->SetLastDirection(move);
 		}
 
@@ -75,6 +78,7 @@ void Simulation::Step(float duration)
 
 		if (currentCharacter->LoseEnergy())//if Character has no energy
 		{
+			std::cout << "je suis mort" << std::endl;
 			//_isDead = true;
 			mAllCharacters.erase(std::array<int, 3>{
 				currentCharacterPosition.x,
@@ -87,6 +91,8 @@ void Simulation::Step(float duration)
 			break;
 		}
 		Tile* nextTile = Tilemap::GetTile(nextPosition);
+		if (nextTile == nullptr)
+			std::cout << "nul" << std::endl;
 		if (nextTile->Obstacle() || (nextTile->GetParty() != currentCharacter->GetParty() && nextTile->GetParty() != None))
 		{
 			for (int j = i + 1; j < pathToTravel.size(); ++j)
@@ -200,6 +206,8 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	for (const auto& [_, tile] : Tilemap::Tiles())
 	{
+		auto a = Tilemap::Tiles();
+
 		center = tile->Position();
 
 		center *= radius;

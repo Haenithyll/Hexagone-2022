@@ -37,12 +37,16 @@ sf::Vector3i PseudoRandom::GetPosition(int radius)
 
 sf::Vector3i PseudoRandom::GetDirection()
 {
-	sf::Vector3i dir;
-	do
-	{
-		dir = sf::Vector3i(GetPosition(1));
-	} while ((abs(dir.x) + abs(dir.y) + abs(dir.z)) == 0);
-	return dir;
+	sf::Vector3i dirs[] = {
+		sf::Vector3i(0, 1, -1),
+		sf::Vector3i(1, 0, -1),
+		sf::Vector3i(1, -1, 0),
+		sf::Vector3i(0, -1, 1),
+		sf::Vector3i(-1, 0, 1),
+		sf::Vector3i(-1, 1, 0),
+	};
+	
+	return dirs[GetInt(0,  5)];
 }
 
 int PseudoRandom::GetObstacleType(int type)
