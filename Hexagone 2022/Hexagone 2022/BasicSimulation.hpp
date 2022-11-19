@@ -6,8 +6,12 @@
 
 class BasicSimulation : public Simulation
 {
-	public:
-		BasicSimulation(int radius, patternCenters(Tilemap::* pattern)());
+public:
+	BasicSimulation(int radius, patternCenters(Tilemap::* pattern)());
 
-		void Reset() override;
+	void Reset() override;
+
+private:
+	void InitMasters();
+	void InitActivists(int countPerParty);
 };

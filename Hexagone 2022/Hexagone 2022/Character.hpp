@@ -49,6 +49,7 @@ public:
 	bool LoseEnergy();
 
 	void SetDrawState(bool idle);
+	bool IsMaster() { return isMaster; };
 
 protected:
 	Messages _messages;
@@ -58,6 +59,7 @@ protected:
 	int _energyPoints;
 	int _maxEnergyPoints;
 	std::string _name;
+	bool isMaster {false};
 
 private:
 	bool mIdle;

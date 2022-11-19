@@ -11,8 +11,12 @@ public:
 			_instance = new JeanneOskour(totalMessagesCount, startMessages);
 	}
 
-	Action DecideAction() override {};
-	int DecideMoveRange() override {};
+	static JeanneOskour* GetInstance() {
+		return _instance;
+	}
+
+	Action DecideAction() override { return Action::BackToHome; };
+	int DecideMoveRange() override { return 0; };
 	void Meet(Character*) override {};
 	void MeetMaster() override {};
 	const Messages* GetMessages() const override { return &_masterMessages; }
@@ -22,5 +26,7 @@ protected:
 	static JeanneOskour* _instance;
 
 	JeanneOskour(int totalMessagesCount, Messages startMessages) : Character("Jeanne Oskour", AgglutinationPatriote, Reprise, 0),
-		Master(totalMessagesCount, startMessages) { };
+		Master(totalMessagesCount, startMessages) { 
+		isMaster = true;
+	};
 };

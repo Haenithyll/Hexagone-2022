@@ -28,6 +28,10 @@ void Simulation::Step(float duration)
 		currentCharacterPosition.y,
 		currentCharacterPosition.z
 	}];
+
+	if (currentCharacter->IsMaster())
+		return;
+
 	int moveRange = currentCharacter->DecideMoveRange();
 	Action action = currentCharacter->DecideAction();
 	Log::Print(currentCharacter->GetName());

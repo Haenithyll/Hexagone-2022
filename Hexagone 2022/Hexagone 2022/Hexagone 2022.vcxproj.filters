@@ -126,6 +126,18 @@
     <ClCompile Include="Astart.cpp">
       <Filter>Fichiers sources\Tilemap Generation</Filter>
     </ClCompile>
+    <ClCompile Include="BenjaminVouallions.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="JosephRepublique.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="JeanneOskour.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MerlinPimpain.cpp">
+      <Filter>Fichiers sources\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.hpp">
