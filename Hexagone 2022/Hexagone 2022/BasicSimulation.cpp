@@ -23,7 +23,7 @@ void BasicSimulation::Reset()
 	{
 		std::string name = names[PseudoRandom::GetInt(0, names.size() - 1)];
 
-		Character* character = new Activist(name, (Party)i, Party::AgglutinationPatriote, 10000, 2, 5);
+		Character* character = new Activist(name, (Party)i, Party::AgglutinationPatriote, 50, 2, 5);
 
 		sf::Vector3i position = sf::Vector3i(1, -1, 0);
 

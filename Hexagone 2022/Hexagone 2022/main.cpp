@@ -8,7 +8,7 @@
 
 int main()
 {
-	sw::Window window("Hexagone 2022", 1378, 1378, 0u, 0u);
+	sw::Window window("Hexagone 2022", 768, 768, 0u, 0u);
 
 	AssetManager::Init();
 

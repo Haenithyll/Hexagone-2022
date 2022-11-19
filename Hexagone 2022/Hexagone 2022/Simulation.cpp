@@ -74,7 +74,6 @@ void Simulation::Step(float duration)
 
 		if (currentCharacter->LoseEnergy())//if Character has no energy
 		{
-			std::cout << "je suis mort" << std::endl;
 			//_isDead = true;
 			mAllCharacters.erase(std::array<int, 3>{
 				currentCharacterPosition.x,
@@ -87,8 +86,7 @@ void Simulation::Step(float duration)
 			break;
 		}
 		Tile* nextTile = Tilemap::GetTile(nextPosition);
-		if (nextTile == nullptr)
-			std::cout << "nul" << std::endl;
+
 		if (nextTile->Obstacle() || (nextTile->GetParty() != currentCharacter->GetParty() && nextTile->GetParty() != None))
 		{
 			for (int j = i + 1; j < pathToTravel.size(); ++j)

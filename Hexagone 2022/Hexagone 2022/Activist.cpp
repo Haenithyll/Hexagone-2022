@@ -2,6 +2,11 @@
 #include "Master.hpp"
 #include "PseudoRandom.hpp"
 
+#include "JosephRepublique.hpp"
+#include "JeanneOskour.hpp"
+#include "BenjaminVouallion.hpp"
+#include "MerlinPimpain.hpp"
+
 Action Activist::DecideAction()
 {
 	if ((float)_energyPoints / _maxEnergyPoints <= 0.2f)
@@ -26,12 +31,37 @@ void Activist::Meet(Character* character)
 
 void Activist::MeetMaster()
 {
-	/* Requires master singletons !*/ 
-	// ---------------------------
+	Character* master;
 
-	//Master* master;
-	//_energyPoints = _maxEnergyPoints;
-	//MessagesUnion(master);
+	switch (_party)
+	{
+		case LesRebelles:
+			master = JosephRepublique::GetInstance();
+
+			break;
+
+		case EnRoute:
+			master = MerlinPimpain::GetInstance();
+
+			break;
+
+		case AgglutinationPatriote:
+			master = JeanneOskour::GetInstance();
+
+			break;
+
+		case Reprise:
+			master = BenjaminVouallion::GetInstance();
+
+			break;
+
+		default:
+			throw new std::invalid_argument("Tu es nul");
+	}
+
+	MessagesUnion(master);
+
+	_energyPoints = _maxEnergyPoints;
 }
 
 void Activist::Fight(Character* character)

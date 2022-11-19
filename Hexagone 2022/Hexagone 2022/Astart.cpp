@@ -38,9 +38,11 @@ std::vector<sf::Vector3i> Astar::FindPath(const sf::Vector3i source, sf::Vector3
         closedSet.push_back(current);
         openSet.erase(current_it);
 
-        for (auto neighbour : tiles[Tilemap::Vector3ToArray(current->coordinates)]->SurroundingTiles())
+        auto& surrounding = Tilemap::GetTile(current->coordinates)->SurroundingTiles();
+
+        for (auto neighbour : surrounding)
         {
-            if (neighbour->Obstacle() || neighbour->GetParty() != party || FindNodeOnList(closedSet, neighbour->Coordinates()))
+            if (neighbour->Obstacle() || (neighbour->GetParty() != party && neighbour->GetParty() != None) || FindNodeOnList(closedSet, neighbour->Coordinates()))
                 continue;
 
             unsigned totalCost = current->G + 10;

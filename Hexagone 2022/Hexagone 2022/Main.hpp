@@ -119,7 +119,7 @@ class Main : public Screen
 
 				ImGui::Spacing();
 
-				ImGui::SliderFloat("Period", &period, 0.01f, 5.f);
+				ImGui::SliderFloat("Period", &period, 1.f, 5.f);
 
 				ImGui::Spacing();
 

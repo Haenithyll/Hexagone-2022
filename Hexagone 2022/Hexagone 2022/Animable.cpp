@@ -43,27 +43,33 @@ void Animable::Update(float deltaTime)
 
 		mRemainingDistance -= distance;
 	}
-	else if (!mMovements.empty())
+	else
 	{
-		Movement movement = mMovements.front();
+		mCurrentPosition = mTargetPosition;
 
-		mMoveDirection = movement.Direction;
-		mBaseDistance = movement.Distance;
-		mMoveDelay = movement.Duration;
-		mMoveRotation = movement.Rotation;
-
-		if (mMoveDelay <= 0.f)
+		if (!mMovements.empty())
 		{
-			mCurrentPosition = movement.Position;
+			Movement movement = mMovements.front();
 
-			mRemainingDistance = 0.f;
+			mMoveDirection = movement.Direction;
+			mBaseDistance = movement.Distance;
+			mMoveDelay = movement.Duration;
+			mMoveRotation = movement.Rotation;
+			mTargetPosition = movement.Position;
 
-			mCurrentRotation = mMoveRotation;
+			if (mMoveDelay <= 0.f)
+			{
+				mCurrentPosition = movement.Position;
+
+				mRemainingDistance = 0.f;
+
+				mCurrentRotation = mMoveRotation;
+			}
+			else
+				mRemainingDistance = mBaseDistance;
+
+			mMovements.pop();
 		}
-		else
-			mRemainingDistance = mBaseDistance;
-
-		mMovements.pop();
 	}
 
 	mCurrentRotation = std::lerp(mCurrentRotation, mMoveRotation, deltaTime * 10.f);

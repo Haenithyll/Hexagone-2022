@@ -49,6 +49,7 @@ class Animable
 
 		sf::Vector2f mMoveDirection;
 		sf::Vector2f mCurrentPosition;
+		sf::Vector2f mTargetPosition;
 
 		float mBaseDistance;
 		float mRemainingDistance;
