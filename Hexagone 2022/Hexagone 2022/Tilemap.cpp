@@ -68,8 +68,10 @@ void Tilemap::AddTile(Tile* tile) {
 
 // GetTile returns the tile whose position matches 'position'.
 Tile* Tilemap::GetTile(sf::Vector3i position) {
-	Tile*& returnedTile{ _instance_->_tiles_[std::array{position.x, position.y, position.z}] };
-	return returnedTile;
+	if (_instance_->_tiles_.find(std::array{ position.x, position.y, position.z }) == _instance_->_tiles_.end())
+		return nullptr;
+
+	return _instance_->_tiles_.at(std::array{position.x, position.y, position.z});
 }
 
 // Radius returns the Hexmap radius (ignoring the center tile).
@@ -148,7 +150,7 @@ std::array<int, 3> Tilemap::Vector3ToArray(const sf::Vector3i& position)
 }
 
 bool Tilemap::OutofMap(sf::Vector3i coords) {
-	return _instance_->_tiles_[std::array<int, 3>{coords.x, coords.y, coords.z}] == nullptr;
+	return GetTile(coords) == nullptr;
 }
 
 patternCenters Tilemap::FlowerPattern() {
