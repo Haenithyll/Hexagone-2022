@@ -100,6 +100,7 @@ void Activist::MessagesUnion(Character* character)
 	for (const std::string* message : otherMessages)
 		_messages.push_back(message);
 
-	std::unique(_messages.begin(), _messages.end());
+	std::sort(_messages.begin(), _messages.end());
+	_messages.erase(std::unique(_messages.begin(), _messages.end()), _messages.end());
 	character->SetMessages(_messages);
 }

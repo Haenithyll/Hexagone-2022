@@ -12,8 +12,8 @@ void Character::ReceiveMessages(const Messages& newMessages, int amountToTake)
 				break;
 		}
 	}
-
-	std::unique(_messages.begin(), _messages.end());
+	std::sort(_messages.begin(), _messages.end());
+	_messages.erase(std::unique(_messages.begin(), _messages.end()), _messages.end());
 }
 
 void Character::AddMessage(const std::string* message)
