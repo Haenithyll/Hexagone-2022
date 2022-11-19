@@ -19,8 +19,11 @@ public:
 	int DecideMoveRange() override { return 0; };
 	void Meet(Character*) override {};
 	void MeetMaster() override {};
-	const Messages* GetMessages() const override { return &_masterMessages; } 
-	void SetMessages(const Messages newMessages) override { _masterMessages = newMessages; }
+	const Messages& GetMessages() const override { return _masterMessages; } 
+	void SetMessages(const Messages newMessages) override
+	{
+		_masterMessages = newMessages;
+	}
 
 protected:
 	static BenjaminVouallion* _instance;

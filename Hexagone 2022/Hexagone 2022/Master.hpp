@@ -4,6 +4,9 @@
 
 class Master 
 {
+public:
+	int GetTotalMessagesCount() { return _totalMessagesCount; }
+
 protected:
 	Master(int totalMessagesCount, Messages _startMessages) 
 	{

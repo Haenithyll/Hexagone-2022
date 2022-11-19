@@ -1,9 +1,9 @@
 #include "Character.hpp"
 #include "AssetManager.hpp"
 
-void Character::ReceiveMessages(const Messages* newMessages, int amountToTake)
+void Character::ReceiveMessages(const Messages& newMessages, int amountToTake)
 {
-	for (const std::string* message : *newMessages)
+	for (const std::string* message : newMessages)
 	{
 		if (std::find(_messages.begin(), _messages.end(), message) == _messages.end())//message not in _messages
 		{
@@ -12,6 +12,8 @@ void Character::ReceiveMessages(const Messages* newMessages, int amountToTake)
 				break;
 		}
 	}
+
+	std::unique(_messages.begin(), _messages.end());
 }
 
 void Character::AddMessage(const std::string* message)
@@ -21,7 +23,8 @@ void Character::AddMessage(const std::string* message)
 
 void Character::DeleteMessage(int index)
 {
-	_messages.erase(_messages.begin() + index);
+	if (index < _messages.size())
+		_messages.erase(_messages.begin() + index);
 }
 
 bool Character::LoseEnergy()
@@ -58,7 +61,29 @@ void Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	sf::CircleShape dot(dotRadius);
 	dot.setOrigin(0.f, dotRadius / 2.f);
-	dot.setFillColor(sf::Color::Red);
+
+	switch (_party)
+	{
+	case LesRebelles:
+		dot.setFillColor(sf::Color::Red);
+
+		break;
+
+	case Reprise:
+		dot.setFillColor(sf::Color::Blue);
+
+		break;
+
+	case AgglutinationPatriote:
+		dot.setFillColor(sf::Color::Cyan);
+
+		break;
+
+	case EnRoute:
+		dot.setFillColor(sf::Color::Yellow);
+
+		break;
+	}
 
 	sf::Text name(_name, AssetManager::GetFont("Default"), 12u);
 	name.setOrigin(0.f, name.getGlobalBounds().height / 2.f);

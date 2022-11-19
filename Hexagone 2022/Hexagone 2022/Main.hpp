@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 
 #include "Screen.hpp"
 #include "Text.hpp"
@@ -11,6 +11,11 @@
 #include "imgui/imgui-SFML.h"
 
 #include "PseudoRandom.hpp"
+
+#include "BenjaminVouallion.hpp"
+#include "JeanneOskour.hpp"
+#include "JosephRepublique.hpp"
+#include "MerlinPimpain.hpp"
 
 class Main : public Screen
 {
@@ -126,6 +131,54 @@ class Main : public Screen
 				ImGui::Text("Pas %i / %i", simulation->GetIndex() + 1, simulation->GetCount());
 
 				ImGui::Text("Tour %i", simulation->GetTurn() + 1);
+
+				ImGui::End();
+
+				#pragma endregion
+
+				#pragma region Debug
+
+				Messages messages = BenjaminVouallion::GetInstance()->GetMessages();
+
+				ImGui::Begin("Benjamin Vouallion");
+
+				ImGui::Text("Messages (%i / %i) :", messages.size(), BenjaminVouallion::GetInstance()->GetTotalMessagesCount());
+
+				for (const std::string* message : messages)
+					ImGui::Text(message->c_str());
+
+				ImGui::End();
+				
+				messages = JosephRepublique::GetInstance()->GetMessages();
+
+				ImGui::Begin("Joseph Republique");
+
+				ImGui::Text("Messages (%i / %i) :", messages.size(), JosephRepublique::GetInstance()->GetTotalMessagesCount());
+
+				for (const std::string* message : messages)
+					ImGui::Text(message->c_str());
+
+				ImGui::End();
+
+				messages = MerlinPimpain::GetInstance()->GetMessages();
+
+				ImGui::Begin("Merlin Pimpain");
+
+				ImGui::Text("Messages (%i / %i) :", messages.size(), MerlinPimpain::GetInstance()->GetTotalMessagesCount());
+
+				for (const std::string* message : messages)
+					ImGui::Text(message->c_str());
+
+				ImGui::End();
+
+				messages = JeanneOskour::GetInstance()->GetMessages();
+
+				ImGui::Begin("Jeanne Oskour");
+
+				ImGui::Text("Messages (%i / %i) :", messages.size(), JeanneOskour::GetInstance()->GetTotalMessagesCount());
+
+				for (const std::string* message : messages)
+					ImGui::Text(message->c_str());
 
 				ImGui::End();
 

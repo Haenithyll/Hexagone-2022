@@ -70,14 +70,14 @@ void Activist::Fight(Character* character)
 	Character* winner = b ? this : character;
 	Character* loser = b ? character : this;
 
-	int amountToTake = PseudoRandom::GetInt(0, std::min(3, (int)loser->GetMessages()->size()));
-	const Messages* loserMessages = loser->GetMessages();
-	const Messages* winnerMessages = winner->GetMessages();
+	int amountToTake = PseudoRandom::GetInt(0, std::min(3, (int)loser->GetMessages().size()));
+	const Messages loserMessages = loser->GetMessages();
+	const Messages winnerMessages = winner->GetMessages();
 	
-	for (int i = 0; i < loserMessages->size(); ++i)
+	for (int i = 0; i < loserMessages.size(); ++i)
 	{
-		const std::string* message = (*loserMessages)[i];
-		if (std::find(winnerMessages->begin(), winnerMessages->end(), message) == winnerMessages->end())//message not in winnerMessages
+		const std::string* message = loserMessages[i];
+		if (std::find(winnerMessages.begin(), winnerMessages.end(), message) == winnerMessages.end())//message not in winnerMessages
 		{
 			winner->AddMessage(message);
 			loser->DeleteMessage(i--);
@@ -91,18 +91,15 @@ void Activist::ShareMessages(Character* character)
 {
 	//shares 1 message each
 	ReceiveMessages(character->GetMessages(), 1);
-	character->ReceiveMessages(&_messages, 1);
+	character->ReceiveMessages(_messages, 1);
 }
 
 void Activist::MessagesUnion(Character* character)
 {
-	const Messages* otherMessages = character->GetMessages();
-	for (const std::string* message : *otherMessages)
-	{
-		if (std::find(_messages.begin(), _messages.end(), message) == _messages.end())//message not in _messages
-		{
-			_messages.push_back(message);
-		}
-	}
+	const Messages otherMessages = character->GetMessages();
+	for (const std::string* message : otherMessages)
+		_messages.push_back(message);
+
+	std::unique(_messages.begin(), _messages.end());
 	character->SetMessages(_messages);
 }

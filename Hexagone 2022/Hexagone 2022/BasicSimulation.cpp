@@ -24,24 +24,24 @@ void BasicSimulation::Reset()
 
 	sf::Vector3i position = PseudoRandom::GetPosition(Tilemap::Radius());
 
-	Messages BVMessages = std::vector<const std::string*>({
-		new std::string("test"),
-		new std::string("test2")
+	Messages BVMessages = Messages({
+		new std::string("Tieens comme c'est bizarre"),
+		new std::string("Le liban, en grand")
 		});
 
-	Messages JOMessages = std::vector<const std::string*>({
-	new std::string("test"),
-	new std::string("test2")
+	Messages JOMessages = Messages({
+	new std::string("Ils sont dans les campagnes"),
+	new std::string("Ils sont dans les villes")
 		});
 
-	Messages MPMessages = std::vector<const std::string*>({
-		new std::string("test"),
-		new std::string("test2")
+	Messages MPMessages = Messages({
+		new std::string("C'est mon projet"),
+		new std::string("Nous sommes en simulation")
 		});
 
-	Messages JRMessages = std::vector<const std::string*>({
-		new std::string("test"),
-		new std::string("test2")
+	Messages JRMessages = Messages({
+		new std::string("Ma personne est sacrée"),
+		new std::string("Republique, c'est moi")
 		});
 
 	int totalMessagesCount = BVMessages.size() + MPMessages.size() + JOMessages.size() + JRMessages.size();
@@ -90,14 +90,10 @@ void BasicSimulation::Reset()
 			if (activistIndex > 5)
 				break;
 
-<<<<<<< HEAD
-		Character* character = new Activist(name, (Party)i, Party::AgglutinationPatriote, 50, 2, 5);
-=======
 			std::string name = names[PseudoRandom::GetInt(0, names.size() - 1)];
->>>>>>> 8937a960f416fb1665784d821e58be56dcb01369
 
 			Character* character = new Activist(name, parties[partyIndex],
-				parties[partyIndex % 2 == 0 ? partyIndex + 1 : partyIndex - 1], 10000, 2, 5);
+				parties[partyIndex % 2 == 0 ? partyIndex + 1 : partyIndex - 1], 50, 2, 5);
 
 			character->SetMessages(PartyMessages[partyIndex]);
 

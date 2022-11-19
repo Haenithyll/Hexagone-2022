@@ -25,110 +25,115 @@ void Simulation::Step(float duration)
 	sf::Vector3i currentCharacterPosition = mCharacterPositions[mIndex];
 	Character* currentCharacter = mAllCharacters[std::array<int, 3>{
 		currentCharacterPosition.x,
-		currentCharacterPosition.y,
-		currentCharacterPosition.z
+			currentCharacterPosition.y,
+			currentCharacterPosition.z
 	}];
 
-	if (currentCharacter->IsMaster())
-		return;
-
-	int moveRange = currentCharacter->DecideMoveRange();
-	Action action = currentCharacter->DecideAction();
-	Log::Print(currentCharacter->GetName());
-	std::vector<sf::Vector3i> pathToTravel;
-	if (action == Action::BackToHome)
+	if (!currentCharacter->IsMaster())
 	{
-		sf::Vector3i home = Tilemap::GetSafeZoneCenter(currentCharacter->GetParty());
-
-		pathToTravel = Astar::FindPath(currentCharacterPosition, home, currentCharacter->GetParty());
-
-		if (pathToTravel.size() > 0)
-			pathToTravel.erase(pathToTravel.begin());
-
-		currentCharacter->SetLastDirection(home);
-
-		Log::Print("Retourne à la safe zone : " + std::to_string(pathToTravel.size()) + " pas");
-	}
-	else if (action == Action::RandomMove)
-	{
-		sf::Vector3i last = currentCharacterPosition;
-
-		for (int i = 0; i < moveRange; ++i)
+		int moveRange = currentCharacter->DecideMoveRange();
+		Action action = currentCharacter->DecideAction();
+		Log::Print(currentCharacter->GetName());
+		std::vector<sf::Vector3i> pathToTravel;
+		if (action == Action::BackToHome)
 		{
-			sf::Vector3i move = PseudoRandom::GetDirection();
-			while (Tilemap::GetTile(last + move) == nullptr || move == -currentCharacter->GetLastDirection())
+			sf::Vector3i home = Tilemap::GetSafeZoneCenter(currentCharacter->GetParty());
+
+			pathToTravel = Astar::FindPath(currentCharacterPosition, home, currentCharacter->GetParty());
+
+			if (pathToTravel.size() > 0)
+				pathToTravel.erase(pathToTravel.begin());
+
+			currentCharacter->SetLastDirection(home);
+
+			Log::Print("Retourne à la safe zone : " + std::to_string(pathToTravel.size()) + " pas");
+		}
+		else if (action == Action::RandomMove)
+		{
+			sf::Vector3i last = currentCharacterPosition;
+
+			for (int i = 0; i < moveRange; ++i)
 			{
-				move = PseudoRandom::GetDirection();
+				sf::Vector3i move = PseudoRandom::GetDirection();
+				while (Tilemap::GetTile(last + move) == nullptr || move == -currentCharacter->GetLastDirection())
+				{
+					move = PseudoRandom::GetDirection();
+				}
+				last = last + move;
+				pathToTravel.push_back(last);
+				currentCharacter->SetLastDirection(move);
 			}
-			last = last + move;
-			pathToTravel.push_back(last);
-			currentCharacter->SetLastDirection(move);
+
+			Log::Print("Bouge aleatoirement : " + std::to_string(pathToTravel.size()) + " pas");
 		}
 
-		Log::Print("Bouge aleatoirement : " + std::to_string(pathToTravel.size()) + " pas");
-	}
+		Log::Print(currentCharacterPosition);
 
-	Log::Print(currentCharacterPosition);
-
-	for (int i = 0; i < pathToTravel.size(); ++i)
-	{
-		sf::Vector3i nextPosition = pathToTravel[i];
-		
-		Log::Print(nextPosition);
-
-		if (currentCharacter->LoseEnergy())//if Character has no energy
+		for (int i = 0; i < pathToTravel.size(); ++i)
 		{
-			//_isDead = true;
-			mAllCharacters.erase(std::array<int, 3>{
-				currentCharacterPosition.x,
-					currentCharacterPosition.y,
-					currentCharacterPosition.z}
-			);
-			mCharacterPositions.erase(mCharacterPositions.begin() + mIndex);
-			mIndex = (mIndex - 1) % mCharacterPositions.size();
-			Tilemap::GetTile(currentCharacterPosition)->SetObstacle();
-			break;
-		}
-		Tile* nextTile = Tilemap::GetTile(nextPosition);
+			sf::Vector3i nextPosition = pathToTravel[i];
 
-		if (nextTile->Obstacle() || (nextTile->GetParty() != currentCharacter->GetParty() && nextTile->GetParty() != None))
-		{
-			for (int j = i + 1; j < pathToTravel.size(); ++j)
-				currentCharacter->LoseEnergy();
-			break;
-		}
+			Log::Print(nextPosition);
 
-		std::map<std::array<int, 3>, Character*>::iterator nextCharacterIt = mAllCharacters.find(std::array<int, 3> {
-			nextPosition.x,
-				nextPosition.y,
-				nextPosition.z
-		});
-		if (nextCharacterIt != mAllCharacters.end())
-		{
-			currentCharacter->Meet(nextCharacterIt->second);
-			for (int j = i + 1; j < pathToTravel.size(); ++j)
-				currentCharacter->LoseEnergy();
-			break;
-		}
-		else
-		{
-			//we didn't encounter an obstacle so lastDirection is reset
-			currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
-
-			mAllCharacters.erase(std::array{ currentCharacterPosition.x, currentCharacterPosition.y, currentCharacterPosition.z });
-
-			mAllCharacters[std::array{ nextPosition.x, nextPosition.y, nextPosition.z }] = currentCharacter;
-			mCharacterPositions[mIndex] = nextPosition;
-
-			currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, duration / moveRange);
-			currentCharacterPosition = nextPosition;
-
-			if (nextTile->GetParty() == currentCharacter->GetParty())
+			if (currentCharacter->LoseEnergy())//if Character has no energy
 			{
-				currentCharacter->MeetMaster();
+				//_isDead = true;
+				mAllCharacters.erase(std::array<int, 3>{
+					currentCharacterPosition.x,
+						currentCharacterPosition.y,
+						currentCharacterPosition.z
+				});
+				mCharacterPositions.erase(mCharacterPositions.begin() + mIndex);
+				mIndex = (mIndex - 1) % mCharacterPositions.size();
+				Tilemap::GetTile(currentCharacterPosition)->SetObstacle();
+				break;
+			}
+
+			Tile* nextTile = Tilemap::GetTile(nextPosition);
+
+			if (nextTile->Obstacle() || (nextTile->GetParty() != currentCharacter->GetParty() && nextTile->GetParty() != None))
+			{
+				for (int j = i + 1; j < pathToTravel.size(); ++j)
+					currentCharacter->LoseEnergy();
+				break;
+			}
+
+			std::map<std::array<int, 3>, Character*>::iterator nextCharacterIt = mAllCharacters.find(std::array<int, 3> {
+				nextPosition.x,
+					nextPosition.y,
+					nextPosition.z
+			});
+			if (nextCharacterIt != mAllCharacters.end())
+			{
+				currentCharacter->Meet(nextCharacterIt->second);
+				for (int j = i + 1; j < pathToTravel.size(); ++j)
+					currentCharacter->LoseEnergy();
+				break;
+			}
+			else
+			{
+				//we didn't encounter an obstacle so lastDirection is reset
+				currentCharacter->SetLastDirection(sf::Vector3i(0, 0, 0));
+
+				mAllCharacters.erase(std::array{ currentCharacterPosition.x, currentCharacterPosition.y, currentCharacterPosition.z });
+
+				mAllCharacters[std::array{ nextPosition.x, nextPosition.y, nextPosition.z }] = currentCharacter;
+				mCharacterPositions[mIndex] = nextPosition;
+
+				Tilemap::GetTile(currentCharacterPosition)->SetCharacter(nullptr);
+				Tilemap::GetTile(nextPosition)->SetCharacter(currentCharacter);
+
+				currentCharacter->MoveTo(Tilemap::CoordToPosition(nextPosition) * 75.f, duration / moveRange);
+				currentCharacterPosition = nextPosition;
+
+				if (nextTile->GetParty() == currentCharacter->GetParty())
+				{
+					currentCharacter->MeetMaster();
+				}
 			}
 		}
 	}
+
 	mIndex = (mIndex + 1) % mCharacterPositions.size();
 
 	if (mIndex == 0)
@@ -282,9 +287,9 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			target.draw(obstacle);
 		}
 
-		target.draw(x, states);
+		/*target.draw(x, states);
 		target.draw(y, states);
-		target.draw(z, states);
+		target.draw(z, states);*/
 	}
 
 	for (const auto& [position, character] : mAllCharacters)

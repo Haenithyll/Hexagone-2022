@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <string>
+#include <vector>
 
 typedef std::vector<const std::string*> Messages;
 enum Action { RandomMove, BackToHome };
@@ -28,12 +29,12 @@ public:
 		_energyPoints = _maxEnergyPoints;
 	}
 	const Party GetParty() const {	return _party;	}
-	const virtual Messages* GetMessages() const {	return &_messages;	}
+	const virtual Messages& GetMessages() const {	return _messages;	}
 	const std::string& GetName() const { return _name; }
 	virtual void SetMessages(const Messages newMessages) {
 		_messages = newMessages;
 	}
-	void ReceiveMessages(const Messages* newMessages, int amountToTake);
+	void ReceiveMessages(const Messages& newMessages, int amountToTake);
 	void AddMessage(const std::string* message);
 	void DeleteMessage(int index);
 	virtual Action DecideAction() = 0;
