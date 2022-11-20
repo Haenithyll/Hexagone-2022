@@ -24,7 +24,7 @@ public:
 		_masterMessages = newMessages;
 	}
 
-protected:
+private:
 	static JeanneOskour* _instance;
 
 	JeanneOskour(int totalMessagesCount, Messages startMessages) : Character("Jeanne Oskour", AgglutinationPatriote, Reprise, 0),

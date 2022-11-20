@@ -24,7 +24,7 @@ public:
 		_masterMessages = newMessages;
 	}
 
-protected:
+private:
 	static BenjaminVouallion* _instance;
 
 	BenjaminVouallion(int totalMessagesCount, Messages startMessages) : Character("Ben Vouallion", Reprise, AgglutinationPatriote, 0),

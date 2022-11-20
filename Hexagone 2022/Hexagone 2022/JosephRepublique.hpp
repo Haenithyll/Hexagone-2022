@@ -24,7 +24,7 @@ public:
 		_masterMessages = newMessages;
 	}
 
-protected:
+private:
 	static JosephRepublique* _instance;
 
 	JosephRepublique(int totalMessagesCount, Messages startMessages) : Character("Joseph Republique", LesRebelles, EnRoute, 0),

@@ -26,7 +26,7 @@ class Main : public Screen
 
 			Log::Init();
 
-			Simulation* simulation = new BasicSimulation(7, &Tilemap::FlowerPattern);
+			Simulation* simulation = new BasicSimulation(12, &Tilemap::FlowerPattern);
 
 			#pragma region View
 

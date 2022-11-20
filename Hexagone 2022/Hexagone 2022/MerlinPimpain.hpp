@@ -24,7 +24,7 @@ public:
 		_masterMessages = newMessages;
 	}
 
-protected:
+private:
 	static MerlinPimpain* _instance;
 
 	MerlinPimpain(int totalMessagesCount, Messages startMessages) : Character("Merlin Pimpain", EnRoute, LesRebelles, 0),
