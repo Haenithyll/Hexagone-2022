@@ -202,19 +202,8 @@ class Main : public Screen
 					timer.restart();
 				}
 
-				#pragma region Console
-
-				ImGui::Begin("Console");
-
-				for (const std::string& message : Log::GetMessages())
-					ImGui::Text(message.c_str());
-
-				ImGui::SetScrollHereY(1.f);
-
-				ImGui::End();
-
-				#pragma endregion
-
+				Log::Show();
+;
 				#pragma region Draw
 
 				window.Clear(sf::Color::Black);

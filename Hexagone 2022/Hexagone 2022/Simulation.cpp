@@ -38,9 +38,13 @@ void Simulation::Step(float duration)
 	if (!currentCharacter->IsMaster())
 	{
 		int moveRange = currentCharacter->DecideMoveRange();
+
 		Action action = currentCharacter->DecideAction();
-		Log::Print(currentCharacter->GetName());
+
+		Log::Print(currentCharacter->GetName(), currentCharacter->GetParty());
+
 		std::vector<sf::Vector3i> pathToTravel;
+
 		if (action == Action::BackToHome)
 		{
 			sf::Vector3i home = Tilemap::GetSafeZoneCenter(currentCharacter->GetParty());
@@ -52,7 +56,7 @@ void Simulation::Step(float duration)
 
 			currentCharacter->SetLastDirection(home);
 
-			Log::Print("Retourne à la safe zone : " + std::to_string(pathToTravel.size()) + " pas");
+			Log::Print("Je retourne à la safe zone : " + std::to_string(pathToTravel.size()) + " pas");
 		}
 		else if (action == Action::RandomMove)
 		{
@@ -61,25 +65,23 @@ void Simulation::Step(float duration)
 			for (int i = 0; i < moveRange; ++i)
 			{
 				sf::Vector3i move = PseudoRandom::GetDirection();
+
 				while (Tilemap::GetTile(last + move) == nullptr || move == -currentCharacter->GetLastDirection())
 				{
 					move = PseudoRandom::GetDirection();
 				}
+
 				last = last + move;
 				pathToTravel.push_back(last);
 				currentCharacter->SetLastDirection(move);
 			}
 
-			Log::Print("Bouge aleatoirement : " + std::to_string(pathToTravel.size()) + " pas");
+			Log::Print("Je bouge aleatoirement : " + std::to_string(pathToTravel.size()) + " pas");
 		}
-
-		Log::Print(currentCharacterPosition);
 
 		for (int i = 0; i < pathToTravel.size(); ++i)
 		{
 			sf::Vector3i nextPosition = pathToTravel[i];
-
-			Log::Print(nextPosition);
 
 			if (currentCharacter->LoseEnergy())//If currentCharacter has no energy
 			{
@@ -88,9 +90,14 @@ void Simulation::Step(float duration)
 						currentCharacterPosition.y,
 						currentCharacterPosition.z
 				});
+
 				mCharacterPositions.erase(mCharacterPositions.begin() + mIndex);
 				mIndex = (mIndex - 1) % mCharacterPositions.size();
+
 				Tilemap::GetTile(currentCharacterPosition)->SetObstacle(true);
+
+				Log::Print("Je me meurs et me transforme en pierre");
+
 				break;
 			}
 
@@ -100,6 +107,9 @@ void Simulation::Step(float duration)
 			{
 				for (int j = i + 1; j < pathToTravel.size(); ++j)
 					currentCharacter->LoseEnergy();
+
+				Log::Print("Je me suis cogne donc j'annule mes " + std::to_string(pathToTravel.size() - (i + 1)) + " prochains pas");
+
 				break;
 			}
 
@@ -108,11 +118,16 @@ void Simulation::Step(float duration)
 					nextPosition.y,
 					nextPosition.z
 			});
+
 			if (nextCharacterIt != mAllCharacters.end())
 			{
 				currentCharacter->Meet(nextCharacterIt->second);
+
 				for (int j = i + 1; j < pathToTravel.size(); ++j)
 					currentCharacter->LoseEnergy();
+
+				Log::Print("J'ai fais une rencontre donc j'annule mes " + std::to_string(pathToTravel.size() - (i + 1)) + " prochains pas");
+
 				break;
 			}
 			else
@@ -169,6 +184,8 @@ void Simulation::Step(float duration)
 		Log::Print("Le parti EnRoute a gagné la partie !");
 		_over = true;
 	}
+	if (!currentCharacter->IsMaster())
+		Log::BreakLine();
 }
 
 void Simulation::EndTurn()
