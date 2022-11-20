@@ -166,24 +166,29 @@ void Simulation::Step(float duration)
 	int totalMessagesCount = JosephRepublique::GetInstance()->GetTotalMessagesCount();
 	if (JosephRepublique::GetInstance()->GetMessages().size() == totalMessagesCount)
 	{
-		Log::Print("Le parti LesRebelles a gagné la partie !");
+		Log::BreakLine();
+		Log::Print("Le parti LesRebelles gagne la partie !");
 		_over = true;
 	}
 	else if (JeanneOskour::GetInstance()->GetMessages().size() == totalMessagesCount)
 	{
-		Log::Print("Le parti AgglutinationPatriote a gagné la partie !");
+		Log::BreakLine();
+		Log::Print("Le parti AgglutinationPatriote gagne la partie !");
 		_over = true;
 	}
 	else if (BenjaminVouallion::GetInstance()->GetMessages().size() == totalMessagesCount)
 	{
-		Log::Print("Le parti Reprise a gagné la partie !");
+		Log::BreakLine();
+		Log::Print("Le parti Reprise gagne la partie !");
 		_over = true;
 	}
 	else if (MerlinPimpain::GetInstance()->GetMessages().size() == totalMessagesCount)
 	{
-		Log::Print("Le parti EnRoute a gagné la partie !");
+		Log::BreakLine();
+		Log::Print("Le parti EnRoute gagne la partie !");
 		_over = true;
 	}
+
 	if (!currentCharacter->IsMaster())
 		Log::BreakLine();
 }
@@ -193,7 +198,7 @@ void Simulation::EndTurn()
 	do
 	{
 		Step(0.f);
-	} while (mIndex > 0);
+	} while (mIndex > 0 && !_over);
 }
 
 void Simulation::Update(float deltaTime)
