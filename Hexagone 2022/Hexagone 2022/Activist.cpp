@@ -81,7 +81,8 @@ void Activist::Fight(Character* character)
 	Character* winner = lose ? this : character;
 	Character* loser = lose ? character : this;
 
-	int amountToTake = PseudoRandom::GetInt(0, std::min(3, (int)loser->GetMessages().size()));
+	int restToTake = PseudoRandom::GetInt(0, std::min(3, (int)loser->GetMessages().size()));
+	int totalToTake = restToTake;
 	const Messages loserMessages = loser->GetMessages();
 	const Messages winnerMessages = winner->GetMessages();
 	
@@ -92,15 +93,15 @@ void Activist::Fight(Character* character)
 		{
 			winner->AddMessage(message);
 			loser->DeleteMessage(i--);
-			if (--amountToTake < 1)
+			if (--restToTake < 1)
 				break;
 		}
 	}
 
 	if (lose)
-		Log::Print("J'ai perdu, je perds " + std::to_string(amountToTake) + " messages");
+		Log::Print("J'ai perdu, je perds " + std::to_string(totalToTake - restToTake) + " messages");
 	else
-		Log::Print("J'ai gagne, je lui prends " + std::to_string(amountToTake) + " messages");
+		Log::Print("J'ai gagne, je lui prends " + std::to_string(totalToTake - restToTake) + " messages");
 }
 
 void Activist::ShareMessages(Character* character)

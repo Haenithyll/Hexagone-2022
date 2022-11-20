@@ -28,6 +28,9 @@ void Simulation::Reset()
 
 void Simulation::Step(float duration)
 {
+	std::random_device rd;
+	std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
+
 	sf::Vector3i currentCharacterPosition = mCharacterPositions[mIndex];
 	Character* currentCharacter = mAllCharacters[std::array<int, 3>{
 		currentCharacterPosition.x,
@@ -126,7 +129,7 @@ void Simulation::Step(float duration)
 				for (int j = i + 1; j < pathToTravel.size(); ++j)
 					currentCharacter->LoseEnergy();
 
-				Log::Print("J'ai fais une rencontre donc j'annule mes " + std::to_string(pathToTravel.size() - (i + 1)) + " prochains pas");
+				Log::Print("J'ai fait une rencontre donc j'annule mes " + std::to_string(pathToTravel.size() - (i + 1)) + " prochains pas");
 
 				break;
 			}
@@ -157,11 +160,7 @@ void Simulation::Step(float duration)
 	mIndex = (mIndex + 1) % mCharacterPositions.size();
 
 	if (mIndex == 0)
-	{
 		++mTurn;
-		std::random_device rd;
-		std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
-	}
 
 	int totalMessagesCount = JosephRepublique::GetInstance()->GetTotalMessagesCount();
 	if (JosephRepublique::GetInstance()->GetMessages().size() == totalMessagesCount)
