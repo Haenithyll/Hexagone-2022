@@ -21,7 +21,7 @@ public:
 	const std::vector<Tile*>& SurroundingTiles();
 
 	void AddSurroundingTile(Tile*);
-	void SetObstacle();
+	void SetObstacle(bool isObstacle);
 	void SetParty(Party);
 	void SetCharacter(Character*);
 	void FreeTile();

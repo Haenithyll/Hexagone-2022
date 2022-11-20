@@ -18,6 +18,8 @@ void Simulation::Reset()
 {
 	mTurn = 0;
 	mIndex = 0;
+
+	Tilemap::ResetMap();
 }
 
 void Simulation::Step(float duration)
@@ -85,7 +87,7 @@ void Simulation::Step(float duration)
 				});
 				mCharacterPositions.erase(mCharacterPositions.begin() + mIndex);
 				mIndex = (mIndex - 1) % mCharacterPositions.size();
-				Tilemap::GetTile(currentCharacterPosition)->SetObstacle();
+				Tilemap::GetTile(currentCharacterPosition)->SetObstacle(true);
 				break;
 			}
 
