@@ -26,7 +26,7 @@ class Main : public Screen
 
 			Log::Init();
 
-			Simulation* simulation = new BasicSimulation(12, &Tilemap::FlowerPattern);
+			Simulation* simulation = new BasicSimulation(7, &Tilemap::FlowerPattern);
 
 			#pragma region View
 
@@ -49,6 +49,8 @@ class Main : public Screen
 
 			float period = 1.f;
 
+			bool gameOver = false;
+
 			simulation->Reset();
 
 			while (window.IsOpen())
@@ -61,7 +63,9 @@ class Main : public Screen
 				if (data.IsKeyPressed(sw::Key::Escape))
 					return 0;
 
-				#pragma region Camera
+				gameOver = simulation->Over();
+
+#pragma region Camera
 
 				if (data.mouseWheelUp)
 					gridView.Zoom(0.95f);
@@ -81,50 +85,55 @@ class Main : public Screen
 				if (data.IsKeyDown(sw::Key::Down) || data.IsKeyDown(sw::Key::S))
 					gridView.Move(0.f, 1.f * 10.f * gridView.GetZoom());
 
-				#pragma endregion
+#pragma endregion
 
-				#pragma region Simulation
+#pragma region Simulation
 
 				ImGui::Begin("Simulation", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
-				if (ImGui::Button(isPlaying ? "Pause" : "Play"))
+				if (!gameOver)
 				{
-					isPlaying = !isPlaying;
+					if (ImGui::Button(isPlaying ? "Pause" : "Play"))
+					{
+						isPlaying = !isPlaying;
 
-					if (isPlaying)
-						timer.restart();
+						if (isPlaying)
+							timer.restart();
+					}
+
+					ImGui::SameLine();
 				}
-
-				ImGui::SameLine();
 
 				if (ImGui::Button("Reset"))
 				{
 					isPlaying = false;
-
 					simulation->Reset();
 				}
 
-				ImGui::Spacing();
-
-				if (ImGui::Button("Update"))
+				if (!gameOver)
 				{
-					isPlaying = false;
+					ImGui::Spacing();
 
-					simulation->Step(period);
+					if (ImGui::Button("Update"))
+					{
+						isPlaying = false;
+
+						simulation->Step(period);
+					}
+
+					ImGui::SameLine();
+
+					if (ImGui::Button("EndTurn"))
+					{
+						isPlaying = false;
+
+						simulation->EndTurn();
+					}
+
+					ImGui::Spacing();
+
+					ImGui::SliderFloat("Period", &period, 1.f, 5.f);
 				}
-
-				ImGui::SameLine();
-
-				if (ImGui::Button("EndTurn"))
-				{
-					isPlaying = false;
-
-					simulation->EndTurn();
-				}
-
-				ImGui::Spacing();
-
-				ImGui::SliderFloat("Period", &period, 1.f, 5.f);
 
 				ImGui::Spacing();
 

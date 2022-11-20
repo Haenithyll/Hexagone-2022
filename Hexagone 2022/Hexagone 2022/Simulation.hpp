@@ -31,6 +31,8 @@ class Simulation : public sf::Drawable, public Animable
 
 		sf::FloatRect GetGlobalBounds();
 
+		bool Over() { return _over; }
+
 	protected:
 		int mIndex = 0;
 		int mTurn = 0;
@@ -39,4 +41,5 @@ class Simulation : public sf::Drawable, public Animable
 
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		bool _over = false;
 };

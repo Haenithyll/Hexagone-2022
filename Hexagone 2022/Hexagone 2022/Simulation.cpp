@@ -2,6 +2,10 @@
 #include "PseudoRandom.hpp"
 #include "Tilemap.hpp"
 #include "Log.hpp"
+#include "JosephRepublique.hpp"
+#include "JeanneOskour.hpp"
+#include "BenjaminVouallion.hpp"
+#include "MerlinPimpain.hpp"
 #include <random>
 #include <algorithm>
 
@@ -18,7 +22,7 @@ void Simulation::Reset()
 {
 	mTurn = 0;
 	mIndex = 0;
-
+	_over = false;
 	Tilemap::ResetMap();
 }
 
@@ -142,6 +146,28 @@ void Simulation::Step(float duration)
 		++mTurn;
 		std::random_device rd;
 		std::shuffle(mCharacterPositions.begin(), mCharacterPositions.end(), rd);
+	}
+
+	int totalMessagesCount = JosephRepublique::GetInstance()->GetTotalMessagesCount();
+	if (JosephRepublique::GetInstance()->GetMessages().size() == totalMessagesCount)
+	{
+		Log::Print("Le parti LesRebelles a gagné la partie !");
+		_over = true;
+	}
+	else if (JeanneOskour::GetInstance()->GetMessages().size() == totalMessagesCount)
+	{
+		Log::Print("Le parti AgglutinationPatriote a gagné la partie !");
+		_over = true;
+	}
+	else if (BenjaminVouallion::GetInstance()->GetMessages().size() == totalMessagesCount)
+	{
+		Log::Print("Le parti Reprise a gagné la partie !");
+		_over = true;
+	}
+	else if (MerlinPimpain::GetInstance()->GetMessages().size() == totalMessagesCount)
+	{
+		Log::Print("Le parti EnRoute a gagné la partie !");
+		_over = true;
 	}
 }
 
