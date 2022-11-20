@@ -9,6 +9,7 @@ class Tilemap {
 
 public:
 	static void Init(int, patternCenters(Tilemap::* )());
+	static void ResetMap();
 	
 
 	static int Radius();

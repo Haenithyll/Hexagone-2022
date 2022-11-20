@@ -137,7 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Activist.cpp" />
     <ClCompile Include="Animable.cpp" />
-    <ClCompile Include="Astart.cpp" />
+    <ClCompile Include="Astar.cpp" />
     <ClCompile Include="BasicSimulation.cpp" />
     <ClCompile Include="BenjaminVouallions.cpp" />
     <ClCompile Include="Button.cpp" />

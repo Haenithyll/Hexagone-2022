@@ -48,9 +48,9 @@ const std::vector<Tile*>& Tile::SurroundingTiles() {
 	return _surroundingTiles_;
 }
 
-// SetObstacle turns the tile into an obstacle.
-void Tile::SetObstacle() {
-	_obstacle_ = true;
+// SetObstacle turns the tile into an obstacle depending on the input.
+void Tile::SetObstacle(bool isObstacle) {
+	_obstacle_ = isObstacle;
 }
 
 // SetParty turns the tile into a SafeZone tile of the corresponding 'party'.

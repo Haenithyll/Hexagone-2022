@@ -26,7 +26,7 @@ void BasicSimulation::Reset()
 
 	Messages BVMessages = Messages({
 		new std::string("Tieens comme c'est bizarre"),
-		new std::string("Le liban, en grand")
+		new std::string("Le Liban, en grand")
 		});
 
 	Messages JOMessages = Messages({
@@ -40,7 +40,7 @@ void BasicSimulation::Reset()
 		});
 
 	Messages JRMessages = Messages({
-		new std::string("Ma personne est sacrée"),
+		new std::string("Ma personne est sacree"),
 		new std::string("Republique, c'est moi")
 		});
 

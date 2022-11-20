@@ -123,7 +123,7 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>Fichiers sources\SFML</Filter>
     </ClCompile>
-    <ClCompile Include="Astart.cpp">
+    <ClCompile Include="Astar.cpp">
       <Filter>Fichiers sources\Tilemap Generation</Filter>
     </ClCompile>
     <ClCompile Include="BenjaminVouallions.cpp">

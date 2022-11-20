@@ -16,8 +16,29 @@ void Tilemap::Init(int radius, patternCenters(Tilemap::* pattern)()) {
 		GenerateTiles();
 		InitSurroundingTiles();
 		GenerateSafeZones(pattern);
-		GenerateObstacles(20);
 	}
+	ResetMap();
+}
+
+
+void Tilemap::ResetMap() {
+	int radius{ _instance_->_radius_ };
+	int y, startingY, count, index;
+	for (int x{ -radius }; x <= radius; ++x) {
+		startingY = x > 0 ? radius - x : radius;
+		count = 2 * radius - abs(x) + 1;
+		index = 0;
+		y = startingY;
+		while (index < count) {
+			Tile* currentTile = _instance_->_tiles_[Vector3ToArray(sf::Vector3i{ x, y, -(x + y) })];
+			currentTile->SetCharacter(nullptr) ;
+			currentTile->SetObstacle(false);
+			--y;
+			++index;
+		}
+	}
+
+	GenerateObstacles(20);
 }
 
 
@@ -138,8 +159,7 @@ void Tilemap::GenerateObstacles(int nbObst) {
 		{
 			ObsTile = GetTile(PseudoRandom::GetPosition(Tilemap::Radius()));
 		}
-		ObsTile->SetObstacle();
-		//PseudoRandom::ResetSeed(); // turbo bugs
+		ObsTile->SetObstacle(true);
 	}
 	return;
 }

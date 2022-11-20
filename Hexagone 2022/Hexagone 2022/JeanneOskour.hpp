@@ -7,8 +7,7 @@ class JeanneOskour : public Character, public Master
 public:
 	static void Init(int totalMessagesCount, Messages startMessages)
 	{
-		if (_instance == nullptr)
-			_instance = new JeanneOskour(totalMessagesCount, startMessages);
+		_instance = new JeanneOskour(totalMessagesCount, startMessages);
 	}
 
 	static JeanneOskour* GetInstance() {
@@ -20,16 +19,16 @@ public:
 	void Meet(Character*) override {};
 	void MeetMaster() override {};
 	const Messages& GetMessages() const override { return _masterMessages; }
-	void SetMessages(const Messages newMessages) override 
+	void SetMessages(const Messages newMessages) override
 	{
 		_masterMessages = newMessages;
 	}
 
-protected:
+private:
 	static JeanneOskour* _instance;
 
 	JeanneOskour(int totalMessagesCount, Messages startMessages) : Character("Jeanne Oskour", AgglutinationPatriote, Reprise, 0),
-		Master(totalMessagesCount, startMessages) { 
+		Master(totalMessagesCount, startMessages) {
 		isMaster = true;
 	};
 };

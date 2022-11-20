@@ -62,7 +62,7 @@ void Activist::MeetMaster()
 			break;
 
 		default:
-			throw new std::invalid_argument("Tu es nul");
+			throw new std::invalid_argument("Invalid Party");
 	}
 
 	MessagesUnion(master);
@@ -119,6 +119,6 @@ void Activist::MessagesUnion(Character* character)
 		_messages.push_back(message);
 
 	std::sort(_messages.begin(), _messages.end());
-	_messages.erase(std::unique(_messages.begin(), _messages.end()), _messages.end());
+	_messages.erase(std::unique(_messages.begin(), _messages.end()), _messages.end());//suppression des doublons éventuels
 	character->SetMessages(_messages);
 }

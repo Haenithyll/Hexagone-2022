@@ -7,8 +7,7 @@ class MerlinPimpain : public Character, public Master
 public:
 	static void Init(int totalMessagesCount, Messages startMessages)
 	{
-		if (_instance == nullptr)
-			_instance = new MerlinPimpain(totalMessagesCount, startMessages);
+		_instance = new MerlinPimpain(totalMessagesCount, startMessages);
 	}
 
 	static MerlinPimpain* GetInstance() {
@@ -25,11 +24,11 @@ public:
 		_masterMessages = newMessages;
 	}
 
-protected:
+private:
 	static MerlinPimpain* _instance;
 
 	MerlinPimpain(int totalMessagesCount, Messages startMessages) : Character("Merlin Pimpain", EnRoute, LesRebelles, 0),
-		Master(totalMessagesCount, startMessages) { 
+		Master(totalMessagesCount, startMessages) {
 		isMaster = true;
 	};
 };
