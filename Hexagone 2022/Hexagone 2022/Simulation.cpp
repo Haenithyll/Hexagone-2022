@@ -77,9 +77,8 @@ void Simulation::Step(float duration)
 
 			Log::Print(nextPosition);
 
-			if (currentCharacter->LoseEnergy())//if Character has no energy
+			if (currentCharacter->LoseEnergy())//If currentCharacter has no energy
 			{
-				//_isDead = true;
 				mAllCharacters.erase(std::array<int, 3>{
 					currentCharacterPosition.x,
 						currentCharacterPosition.y,
@@ -288,10 +287,6 @@ void Simulation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 			target.draw(obstacle);
 		}
-
-		/*target.draw(x, states);
-		target.draw(y, states);
-		target.draw(z, states);*/
 	}
 
 	for (const auto& [position, character] : mAllCharacters)

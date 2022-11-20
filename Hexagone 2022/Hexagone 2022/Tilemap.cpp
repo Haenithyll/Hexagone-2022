@@ -160,7 +160,6 @@ void Tilemap::GenerateObstacles(int nbObst) {
 			ObsTile = GetTile(PseudoRandom::GetPosition(Tilemap::Radius()));
 		}
 		ObsTile->SetObstacle(true);
-		//PseudoRandom::ResetSeed(); // turbo bugs
 	}
 	return;
 }
